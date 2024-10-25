@@ -10,17 +10,32 @@
     <div class="container">
         <h1>Tính điểm KOOS</h1>
         <form id="koos-form">
-            <h2>A. Triệu chứng</h2>
-            <!-- Các câu hỏi triệu chứng -->
-            <label>Có bị sưng ở khớp gối?</label>
-            <select name="symptom_swelling">
-                <option value="0">Không bao giờ</option>
-                <option value="1">Hiếm khi</option>
-                <option value="2">Thỉnh thoảng</option>
-                <option value="3">Thường xuyên</option>
-                <option value="4">Luôn luôn</option>
-            </select>
-            <!-- Thêm các câu hỏi khác theo mẫu trên -->
+            <div class="question">
+                <h2>A. Triệu chứng</h2>
+                <label>Có bị sưng ở khớp gối?</label>
+                <select name="symptom_swelling" required>
+                    <option value="">Chọn...</option>
+                    <option value="0">Không bao giờ</option>
+                    <option value="1">Hiếm khi</option>
+                    <option value="2">Thỉnh thoảng</option>
+                    <option value="3">Thường xuyên</option>
+                    <option value="4">Luôn luôn</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <label>Cảm thấy tiếng lạo xạo, tiếng lách tách hay âm thanh nào khác khi cử động khớp gối không?</label>
+                <select name="symptom_noise" required>
+                    <option value="">Chọn...</option>
+                    <option value="0">Không bao giờ</option>
+                    <option value="1">Hiếm khi</option>
+                    <option value="2">Thỉnh thoảng</option>
+                    <option value="3">Thường xuyên</option>
+                    <option value="4">Luôn luôn</option>
+                </select>
+            </div>
+
+            <!-- Thêm các câu hỏi khác tương tự -->
 
             <button type="button" onclick="calculateScore()">Tính điểm</button>
         </form>
