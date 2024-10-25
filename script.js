@@ -1,22 +1,15 @@
-document.getElementById('calculateBtn').addEventListener('click', function() {
-    let total = 0;
-    let count = 0;
+function calculateScore() {
+    const symptoms1 = parseInt(document.getElementById('symptoms1').value);
+    const symptoms2 = parseInt(document.getElementById('symptoms2').value);
+    // Lấy các giá trị khác từ các câu hỏi tương tự
 
-    // Mảng chứa tên các câu hỏi
-    const questions = [
-        'symptom1',
-        'symptom2',
-        'pain1',
-        // Thêm các câu hỏi khác vào đây
-    ];
+    const pain1 = parseInt(document.getElementById('pain1').value);
+    // Lấy các giá trị khác từ phần Đau và các phần tiếp theo
+    
+    // Tính điểm trung bình từ tất cả các câu hỏi
+    const totalScore = (symptoms1 + symptoms2 + pain1 /*+ ... các câu hỏi khác */) / tổng số câu hỏi;
+    
+    // Hiển thị điểm KOOS tổng
+    document.getElementById('result').innerText = `KOOS Score: ${totalScore.toFixed(2)}`;
 
-    questions.forEach(question => {
-        const select = document.getElementsByName(question)[0];
-        total += parseInt(select.value);
-        count++;
-    });
-
-    const avg = (total / (count * 4)) * 100; // Tính điểm phần trăm
-    document.getElementById('result').innerText = `Điểm KOOS của bạn là: ${avg.toFixed(2)}%`;
-});
 
