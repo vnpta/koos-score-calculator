@@ -24,7 +24,12 @@ h1 {
 }
 
 .question {
+    text-align: center; /* Căn giữa câu hỏi */
     margin-bottom: 20px;
+}
+
+.question-item {
+    margin: 10px 0;
 }
 
 label {
@@ -34,13 +39,30 @@ label {
     font-size: 20px; /* Cỡ chữ lớn cho câu hỏi */
 }
 
-select {
-    width: 100%;
-    padding: 10px; /* Thêm padding cho trường chọn */
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.options {
+    display: flex;
+    justify-content: center; /* Căn giữa các lựa chọn */
+}
+
+.checkbox-label {
+    margin: 0 10px;
     font-size: 18px; /* Cỡ chữ lớn cho lựa chọn */
+    cursor: pointer; /* Đổi con trỏ khi hover */
+    position: relative; /* Để tạo hiệu ứng */
+    padding: 10px;
+    border: 2px solid #3498db;
+    border-radius: 5px; /* Bo góc */
+    transition: background-color 0.3s, border-color 0.3s; /* Hiệu ứng chuyển tiếp */
+}
+
+input[type="checkbox"] {
+    display: none; /* Ẩn checkbox gốc */
+}
+
+input[type="checkbox"]:checked + .checkbox-label {
+    background-color: #3498db; /* Màu nền khi chọn */
+    color: white; /* Màu chữ khi chọn */
+    border-color: #2980b9; /* Màu viền khi chọn */
 }
 
 button {
@@ -74,7 +96,7 @@ button:hover {
         font-size: 24px; /* Cỡ chữ tiêu đề nhỏ hơn cho màn hình nhỏ */
     }
 
-    label, select, button {
+    label, button {
         font-size: 18px; /* Giảm cỡ chữ cho các thành phần khác */
     }
 }
