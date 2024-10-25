@@ -12,20 +12,26 @@ document.querySelectorAll('.option').forEach(option => {
 document.getElementById('calculateBtn').addEventListener('click', function () {
     let total = 0;
     let count = 0;
+    let unansweredQuestions = []; // Mảng lưu trữ các câu hỏi chưa trả lời
 
     // Lặp qua các câu hỏi và tính điểm
-    document.querySelectorAll('.options').forEach(optionGroup => {
+    document.querySelectorAll('.options').forEach((optionGroup, index) => {
         const selectedOption = optionGroup.querySelector('.option.selected');
         if (selectedOption) {
             total += parseInt(selectedOption.getAttribute('data-value'));
             count++;
+        } else {
+            unansweredQuestions.push(index + 1); // Lưu lại số thứ tự câu hỏi chưa trả lời
         }
     });
 
-    if (count > 0) {
+    if (unansweredQuestions.length > 0) {
+        // Thông báo nếu còn câu hỏi chưa trả lời
+        document.getElementById('result').innerText = 
+            `Bạn phải trả lời tất cả các câu hỏi! Câu hỏi chưa trả lời: ${unansweredQuestions.join(', ')}`;
+    } else {
+        // Tính điểm nếu tất cả câu hỏi đã được trả lời
         const avg = (total / (count * 4)) * 100; // Tính điểm phần trăm
         document.getElementById('result').innerText = `Điểm KOOS của bạn là: ${avg.toFixed(2)}%`;
-    } else {
-        document.getElementById('result').innerText = "Vui lòng chọn đáp án cho mỗi câu hỏi.";
     }
 });
