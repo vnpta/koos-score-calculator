@@ -1,23 +1,21 @@
+// Thêm sự kiện cho từng ô lựa chọn
 document.querySelectorAll('.option').forEach(option => {
-    option.addEventListener('click', function() {
-        // Xóa lớp 'selected' khỏi tất cả các ô trong câu hỏi
+    option.addEventListener('click', function () {
         const parent = this.parentElement;
-        const options = parent.querySelectorAll('.option');
-        options.forEach(opt => opt.classList.remove('selected'));
-
+        // Xóa lớp 'selected' khỏi tất cả các ô trong cùng câu hỏi
+        parent.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
         // Thêm lớp 'selected' vào ô được chọn
         this.classList.add('selected');
     });
 });
 
-document.getElementById('calculateBtn').addEventListener('click', function() {
+document.getElementById('calculateBtn').addEventListener('click', function () {
     let total = 0;
     let count = 0;
 
-    // Lặp qua các câu hỏi để tính điểm
-    const questions = document.querySelectorAll('.question');
-    questions.forEach((question, index) => {
-        const selectedOption = question.querySelector('.option.selected');
+    // Lặp qua các câu hỏi và tính điểm
+    document.querySelectorAll('.options').forEach(optionGroup => {
+        const selectedOption = optionGroup.querySelector('.option.selected');
         if (selectedOption) {
             total += parseInt(selectedOption.getAttribute('data-value'));
             count++;
