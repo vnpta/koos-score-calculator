@@ -1,44 +1,49 @@
+/* Đặt font và căn chỉnh toàn bộ trang */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
+    background-color: #f4f4f4;
 }
 
 .container {
-    max-width: 600px;
+    max-width: 900px; /* Tăng chiều rộng của khung chứa */
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
+    background-color: white;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
     text-align: center;
-    font-size: 24px;
+    font-size: 28px;
 }
 
 .question {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .options {
-    display: flex; /* Sử dụng flexbox để đặt các ô lựa chọn trên cùng một hàng */
+    display: flex; /* Đặt các đáp án trên cùng 1 hàng ngang */
+    justify-content: space-between;
 }
 
 .option {
-    background-color: #007bff; /* Màu xanh nước biển */
-    color: white;
-    padding: 15px; /* Thay đổi kích thước ô */
-    border-radius: 5px;
-    cursor: pointer;
+    flex: 1; /* Mỗi ô sẽ chiếm đều khoảng không */
     text-align: center;
-    flex: 1; /* Mỗi ô sẽ chiếm đều không gian */
+    padding: 15px;
+    margin: 0 2px; /* Giảm khoảng cách giữa các ô */
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
     transition: background-color 0.3s;
-    margin: 0; /* Đặt khoảng cách là 0 */
+    white-space: nowrap; /* Ngăn ngắt dòng văn bản */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Cắt bớt văn bản nếu quá dài */
 }
 
 .option.selected {
-    background-color: #0056b3; /* Màu xanh đậm hơn khi chọn */
+    background-color: #0056b3;
 }
