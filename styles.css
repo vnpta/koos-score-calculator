@@ -24,20 +24,21 @@ h2 {
 }
 
 .options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: flex; /* Sử dụng flexbox để đặt các ô lựa chọn trên cùng một hàng */
 }
 
-label {
-    background-color: #e0e0e0;
-    padding: 10px;
+.option {
+    background-color: #007bff; /* Màu xanh nước biển */
+    color: white;
+    padding: 15px; /* Thay đổi kích thước ô */
     border-radius: 5px;
     cursor: pointer;
+    text-align: center;
+    flex: 1; /* Mỗi ô sẽ chiếm đều không gian */
     transition: background-color 0.3s;
+    margin: 0; /* Đặt khoảng cách là 0 */
 }
 
-input[type="radio"]:checked + label {
-    background-color: #4caf50;
-    color: white;
+.option.selected {
+    background-color: #0056b3; /* Màu xanh đậm hơn khi chọn */
 }
