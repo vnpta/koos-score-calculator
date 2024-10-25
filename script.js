@@ -15,21 +15,19 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     let count = 0;
 
     // Lặp qua các câu hỏi để tính điểm
-    const questions = [
-        'symptom1',
-        'symptom2',
-        'pain1',
-        // Thêm các câu hỏi khác vào đây
-    ];
-
+    const questions = document.querySelectorAll('.question');
     questions.forEach((question, index) => {
-        const selectedOption = document.querySelectorAll(`.question:nth-child(${index + 1}) .option.selected`);
-        if (selectedOption.length > 0) {
-            total += parseInt(selectedOption[0].getAttribute('data-value'));
+        const selectedOption = question.querySelector('.option.selected');
+        if (selectedOption) {
+            total += parseInt(selectedOption.getAttribute('data-value'));
             count++;
         }
     });
 
-    const avg = (total / (count * 4)) * 100; // Tính điểm phần trăm
-    document.getElementById('result').innerText = `Điểm KOOS của bạn là: ${avg.toFixed(2)}%`;
+    if (count > 0) {
+        const avg = (total / (count * 4)) * 100; // Tính điểm phần trăm
+        document.getElementById('result').innerText = `Điểm KOOS của bạn là: ${avg.toFixed(2)}%`;
+    } else {
+        document.getElementById('result').innerText = "Vui lòng chọn đáp án cho mỗi câu hỏi.";
+    }
 });
