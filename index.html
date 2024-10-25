@@ -1,60 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KOOS Score Calculator</title>
+    <title>Tính điểm KOOS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>KOOS Score Calculator</h1>
-        <form id="koosForm">
-            <div class="section">
-                <h2>A. Triệu chứng</h2>
-                <div class="question">
-                    <label>Bạn có bị sưng ở khớp gối không?</label>
-                    <select id="symptoms1">
-                        <option value="0">Không bao giờ</option>
-                        <option value="1">Hiếm khi</option>
-                        <option value="2">Thỉnh thoảng</option>
-                        <option value="3">Thường xuyên</option>
-                        <option value="4">Luôn luôn</option>
-                    </select>
-                </div>
-                <div class="question">
-                    <label>Bạn có cảm thấy tiếng lạo xạo, tiếng lách tách hay âm thanh nào khác khi bạn cử động khớp gối không?</label>
-                    <select id="symptoms2">
-                        <option value="0">Không bao giờ</option>
-                        <option value="1">Hiếm khi</option>
-                        <option value="2">Thỉnh thoảng</option>
-                        <option value="3">Thường xuyên</option>
-                        <option value="4">Luôn luôn</option>
-                    </select>
-                </div>
-                <!-- Thêm các câu hỏi khác theo cùng định dạng -->
-            </div>
+        <h1>Tính điểm KOOS</h1>
+        <form id="koos-form">
+            <h2>A. Triệu chứng</h2>
+            <!-- Các câu hỏi triệu chứng -->
+            <label>Có bị sưng ở khớp gối?</label>
+            <select name="symptom_swelling">
+                <option value="0">Không bao giờ</option>
+                <option value="1">Hiếm khi</option>
+                <option value="2">Thỉnh thoảng</option>
+                <option value="3">Thường xuyên</option>
+                <option value="4">Luôn luôn</option>
+            </select>
+            <!-- Thêm các câu hỏi khác theo mẫu trên -->
 
-            <div class="section">
-                <h2>B. Đau</h2>
-                <div class="question">
-                    <label>Bao lâu bạn bị đau khớp gối một lần? (Tần suất đau khớp gối)</label>
-                    <select id="pain1">
-                        <option value="0">Không bao giờ</option>
-                        <option value="1">Hàng tháng</option>
-                        <option value="2">Hàng tuần</option>
-                        <option value="3">Hàng ngày</option>
-                        <option value="4">Luôn luôn</option>
-                    </select>
-                </div>
-                <!-- Thêm các câu hỏi khác cho phần Đau -->
-            </div>
-
-            <!-- Thêm các phần Chức năng và Chất lượng sống tương tự với các lựa chọn -->
-            <button type="button" onclick="calculateScore()">Calculate KOOS Score</button>
+            <button type="button" onclick="calculateScore()">Tính điểm</button>
         </form>
         <div id="result"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
