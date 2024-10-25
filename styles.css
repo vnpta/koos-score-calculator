@@ -1,107 +1,43 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
-    padding: 20px;
+    background-color: #f4f4f4;
     margin: 0;
-    text-align: center; /* Căn giữa nội dung */
+    padding: 20px;
 }
 
 .container {
-    background: white;
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 100%; /* Đảm bảo container phù hợp với màn hình */
-    width: 600px; /* Giới hạn chiều rộng tối đa */
-    margin: auto;
-    box-sizing: border-box; /* Đảm bảo padding không làm tăng chiều rộng */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    color: #2c3e50;
-    font-size: 32px; /* Cỡ chữ lớn cho tiêu đề */
-    font-weight: bold; /* Làm nổi bật tiêu đề */
-    margin-bottom: 20px; /* Thêm khoảng cách dưới tiêu đề */
+h2 {
+    text-align: center;
+    font-size: 24px;
 }
 
 .question {
-    text-align: center; /* Căn giữa câu hỏi */
     margin-bottom: 20px;
-}
-
-.question-item {
-    margin: 10px 0;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 22px; /* Cỡ chữ lớn cho câu hỏi */
 }
 
 .options {
     display: flex;
-    justify-content: center; /* Căn giữa các lựa chọn */
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.checkbox-label {
-    margin: 0 10px;
-    font-size: 20px; /* Cỡ chữ lớn cho lựa chọn */
-    cursor: pointer; /* Đổi con trỏ khi hover */
-    position: relative; /* Để tạo hiệu ứng */
+label {
+    background-color: #e0e0e0;
     padding: 10px;
-    border: 2px solid #3498db;
-    border-radius: 5px; /* Bo góc */
-    transition: background-color 0.3s, border-color 0.3s; /* Hiệu ứng chuyển tiếp */
-}
-
-input[type="checkbox"] {
-    display: none; /* Ẩn checkbox gốc */
-}
-
-input[type="checkbox"]:checked + .checkbox-label {
-    background-color: #3498db; /* Màu nền khi chọn */
-    color: white; /* Màu chữ khi chọn */
-    border-color: #2980b9; /* Màu viền khi chọn */
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #3498db;
-    color: white;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 22px; /* Cỡ chữ lớn cho nút */
-    font-weight: bold; /* Làm nổi bật nút */
-    margin-top: 20px; /* Thêm khoảng cách trên nút */
+    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #2980b9;
-}
-
-#result {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 26px; /* Cỡ chữ lớn cho kết quả */
-    font-weight: bold; /* Làm nổi bật kết quả */
-}
-
-/* Responsive design for smaller screens */
-@media (max-width: 600px) {
-    .container {
-        padding: 10px; /* Giảm padding trên thiết bị nhỏ */
-    }
-
-    h1 {
-        font-size: 28px; /* Cỡ chữ tiêu đề nhỏ hơn cho màn hình nhỏ */
-    }
-
-    label, button {
-        font-size: 20px; /* Giảm cỡ chữ cho các thành phần khác */
-    }
+input[type="radio"]:checked + label {
+    background-color: #4caf50;
+    color: white;
 }
