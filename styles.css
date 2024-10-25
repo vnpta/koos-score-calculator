@@ -4,6 +4,7 @@ body {
     color: #333;
     padding: 20px;
     margin: 0;
+    text-align: center; /* Căn giữa nội dung */
 }
 
 .container {
@@ -18,9 +19,10 @@ body {
 }
 
 h1 {
-    text-align: center;
     color: #2c3e50;
-    font-size: 28px; /* Cỡ chữ lớn cho tiêu đề */
+    font-size: 32px; /* Cỡ chữ lớn cho tiêu đề */
+    font-weight: bold; /* Làm nổi bật tiêu đề */
+    margin-bottom: 20px; /* Thêm khoảng cách dưới tiêu đề */
 }
 
 .question {
@@ -36,7 +38,7 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    font-size: 20px; /* Cỡ chữ lớn cho câu hỏi */
+    font-size: 22px; /* Cỡ chữ lớn cho câu hỏi */
 }
 
 .options {
@@ -46,7 +48,7 @@ label {
 
 .checkbox-label {
     margin: 0 10px;
-    font-size: 18px; /* Cỡ chữ lớn cho lựa chọn */
+    font-size: 20px; /* Cỡ chữ lớn cho lựa chọn */
     cursor: pointer; /* Đổi con trỏ khi hover */
     position: relative; /* Để tạo hiệu ứng */
     padding: 10px;
@@ -73,7 +75,9 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 20px; /* Cỡ chữ lớn cho nút */
+    font-size: 22px; /* Cỡ chữ lớn cho nút */
+    font-weight: bold; /* Làm nổi bật nút */
+    margin-top: 20px; /* Thêm khoảng cách trên nút */
 }
 
 button:hover {
@@ -83,7 +87,8 @@ button:hover {
 #result {
     margin-top: 20px;
     text-align: center;
-    font-size: 24px; /* Cỡ chữ lớn cho kết quả */
+    font-size: 26px; /* Cỡ chữ lớn cho kết quả */
+    font-weight: bold; /* Làm nổi bật kết quả */
 }
 
 /* Responsive design for smaller screens */
@@ -93,10 +98,10 @@ button:hover {
     }
 
     h1 {
-        font-size: 24px; /* Cỡ chữ tiêu đề nhỏ hơn cho màn hình nhỏ */
+        font-size: 28px; /* Cỡ chữ tiêu đề nhỏ hơn cho màn hình nhỏ */
     }
 
     label, button {
-        font-size: 18px; /* Giảm cỡ chữ cho các thành phần khác */
+        font-size: 20px; /* Giảm cỡ chữ cho các thành phần khác */
     }
 }
