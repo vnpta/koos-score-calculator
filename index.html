@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tính Điểm KOOS</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Tính Điểm KOOS</h2>
+        <form id="koosForm">
+            <div class="question">
+                <h3>1. Bạn có bị sưng ở khớp gối không?</h3>
+                <div class="options">
+                    <label><input type="radio" name="symptom1" value="0"> Không bao giờ</label>
+                    <label><input type="radio" name="symptom1" value="1"> Hiếm khi</label>
+                    <label><input type="radio" name="symptom1" value="2"> Thỉnh thoảng</label>
+                    <label><input type="radio" name="symptom1" value="3"> Thường xuyên</label>
+                    <label><input type="radio" name="symptom1" value="4"> Luôn luôn</label>
+                </div>
+            </div>
+            <!-- Thêm các câu hỏi khác tương tự ở đây -->
+            <button type="button" id="calculateBtn">Tính Điểm KOOS</button>
+            <h3 id="result"></h3>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
