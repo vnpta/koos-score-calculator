@@ -12,13 +12,33 @@
         <form id="koosForm">
             <div class="question">
                 <h3>1. Bạn có bị sưng ở khớp gối không?</h3>
-                <div class="options">
-                    <label><input type="radio" name="symptom1" value="0"> Không bao giờ</label>
-                    <label><input type="radio" name="symptom1" value="1"> Hiếm khi</label>
-                    <label><input type="radio" name="symptom1" value="2"> Thỉnh thoảng</label>
-                    <label><input type="radio" name="symptom1" value="3"> Thường xuyên</label>
-                    <label><input type="radio" name="symptom1" value="4"> Luôn luôn</label>
-                </div>
+                <select name="symptom1">
+                    <option value="0">Không bao giờ</option>
+                    <option value="1">Hiếm khi</option>
+                    <option value="2">Thỉnh thoảng</option>
+                    <option value="3">Thường xuyên</option>
+                    <option value="4">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="question">
+                <h3>2. Bạn có bị kẹt hoặc không vững chãi ở khớp gối không?</h3>
+                <select name="symptom2">
+                    <option value="0">Không bao giờ</option>
+                    <option value="1">Hiếm khi</option>
+                    <option value="2">Thỉnh thoảng</option>
+                    <option value="3">Thường xuyên</option>
+                    <option value="4">Luôn luôn</option>
+                </select>
+            </div>
+            <div class="question">
+                <h3>3. Bạn có bị đau khi đi bộ không?</h3>
+                <select name="pain1">
+                    <option value="0">Không bao giờ</option>
+                    <option value="1">Hiếm khi</option>
+                    <option value="2">Thỉnh thoảng</option>
+                    <option value="3">Thường xuyên</option>
+                    <option value="4">Luôn luôn</option>
+                </select>
             </div>
             <!-- Thêm các câu hỏi khác tương tự ở đây -->
             <button type="button" id="calculateBtn">Tính Điểm KOOS</button>
