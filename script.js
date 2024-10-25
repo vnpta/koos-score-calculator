@@ -1,26 +1,21 @@
-const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+document.getElementById('calculateBtn').addEventListener('click', function() {
+    let total = 0;
+    let count = 0;
 
-checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('change', function () {
-        // Bỏ chọn các checkbox khác trong cùng nhóm
-        if (this.checked) {
-            checkboxes.forEach((other) => {
-                if (other !== this) {
-                    other.checked = false;
-                }
-            });
-        }
+    // Mảng chứa tên các câu hỏi
+    const questions = [
+        'symptom1',
+        'symptom2',
+        'pain1',
+        // Thêm các câu hỏi khác vào đây
+    ];
+
+    questions.forEach(question => {
+        const select = document.getElementsByName(question)[0];
+        total += parseInt(select.value);
+        count++;
     });
+
+    const avg = (total / (count * 4)) * 100; // Tính điểm phần trăm
+    document.getElementById('result').innerText = `Điểm KOOS của bạn là: ${avg.toFixed(2)}%`;
 });
-
-function calculateScore() {
-    const form = document.getElementById('koos-form');
-    const formData = new FormData(form);
-    let totalScore = 0;
-
-    for (let value of formData.values()) {
-        totalScore += parseInt(value);
-    }
-
-    document.getElementById('result').innerText = `Điểm tổng cộng: ${totalScore}`;
-}
