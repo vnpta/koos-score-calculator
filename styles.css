@@ -7,9 +7,9 @@ body {
 }
 
 .container {
-    max-width: 900px; /* Tăng chiều rộng của khung chứa */
+    max-width: 1200px; /* Tăng chiều rộng khung chứa */
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -17,33 +17,37 @@ body {
 
 h2 {
     text-align: center;
-    font-size: 28px;
+    font-size: 32px;
+    margin-bottom: 20px;
 }
 
 .question {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .options {
-    display: flex; /* Đặt các đáp án trên cùng 1 hàng ngang */
+    display: flex; /* Đặt các ô trên cùng 1 hàng ngang */
     justify-content: space-between;
+    gap: 10px; /* Khoảng cách giữa các ô */
 }
 
 .option {
-    flex: 1; /* Mỗi ô sẽ chiếm đều khoảng không */
+    flex: 1; /* Mỗi ô chiếm đều khoảng không */
     text-align: center;
-    padding: 15px;
-    margin: 0 2px; /* Giảm khoảng cách giữa các ô */
+    padding: 20px; /* Tăng kích thước nội dung trong ô */
     background-color: #007bff;
     color: white;
     cursor: pointer;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.1s;
     white-space: nowrap; /* Ngăn ngắt dòng văn bản */
     overflow: hidden;
     text-overflow: ellipsis; /* Cắt bớt văn bản nếu quá dài */
+    font-size: 18px; /* Tăng kích thước chữ */
 }
 
+/* Khi ô được chọn */
 .option.selected {
     background-color: #0056b3;
+    transform: scale(1.05); /* Phóng to nhẹ khi được chọn */
 }
