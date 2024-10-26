@@ -4,20 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Tính Điểm KOOS Online</title>
+    <title>Công cụ tính điểm online</title>
 </head>
 <body>
     <div class="container">
-        <h2>Knee injury and Osteoarthritis Outcome Score (KOOS) Calculator - Tiếng Việt</h2>
+        <h2>Knee injury and Osteoarthritis Outcome Score (KOOS) ©
+<P>
+
+</P>Khảo sát KHỚP GỐI</h2>
+<div class="instructions">
+    <p><strong>HƯỚNG DẪN:</strong> Bản khảo sát này hỏi quan điểm của bạn về khớp gối của mình. Thông tin này sẽ giúp chúng tôi theo dõi được bạn cảm nhận như thế nào về khớp gối của mình và mức độ bạn có thể thực hiện các hoạt động thông thường. Trả lời mọi câu hỏi bằng cách đánh dấu vào ô thích hợp, chỉ đánh <u>một</u> ô cho mỗi câu hỏi. Nếu bạn không chắc chắn về cách trả lời câu hỏi, vui lòng đưa ra câu trả lời tốt nhất có thể.</p>
+</div>
         <form id="koosForm">
                           <div style="display: flex; justify-content: center; align-items: center; text-align: center; 
-                        margin-bottom: 30px; background-color: #e0f7fa; padding: 15px; border-radius: 10px; 
-                        max-width: 800px; margin-left: auto; margin-right: auto;">
-              <div>
-                <h3 style="margin-top: 15; color: #00796b;">TRIỆU CHỨNG</h3>
-                </p>
-              </div>
-            </div>
+            margin-bottom: 30px; background-color: #e0f7fa; padding: 15px; border-radius: 10px; 
+            max-width: 800px; margin-left: auto; margin-right: auto;">
+  <div>
+    <h3 style="margin-top: 0; color: #00796b;">TRIỆU CHỨNG</h3>
+    <p>
+      Những câu hỏi này nên được trả lời dựa vào những triệu chứng ở khớp gối của
+bạn trong
+      <strong>tuần trước</strong>. 
+    </p>
+  </div>
+</div>
             <div class="question" data-question="1">
             <h3>S1. Bạn có bị sưng ở khớp gối không?</h3>
             <div class="options">
@@ -119,6 +129,15 @@
               
                 </div>
             </div>
+             <div style="display: flex; justify-content: center; align-items: center; text-align: center; 
+            margin-bottom: 30px; background-color: #e0f7fa; padding: 15px; border-radius: 10px; 
+            max-width: 800px; margin-left: auto; margin-right: auto;">
+  <div>
+    <p>
+      <strong>Tuần trước</strong>, bạn thấy đau khớp gối ở mức độ nào trong các hoạt động sau đây?
+    </p>
+  </div>
+</div>
             <div class="question" data-question="9">
             <h3>P2. Tuần trước, bạn thấy đau khớp gối ở mức độ nào khi vặn/xoay người trên khớp gối</h3>
             <div class="options">
@@ -523,6 +542,10 @@
               
                 </div>
             </div>
+            <div id="thankYouMessage" style="display: none; text-align: left; padding-left: 20px; font-size: 22px; margin-top: 25px;">
+    Cảm ơn bạn rất nhiều đã hoàn thành tất cả câu hỏi của bảng câu hỏi này.
+</div>
+
 <!-- Thêm các câu hỏi khác tương tự -->
             <button type="button" id="calculateBtn">Tính Điểm KOOS</button>
             <h3 id="result"></h3>
