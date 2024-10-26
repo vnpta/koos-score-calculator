@@ -39,13 +39,13 @@ h2 {
 .option {
   flex: 1;
   max-width: 180px;
-  height: 40px;
-  background-color: #ADD8E6; /* Màu nhạt hơn khi chưa chọn */
-  color: white;
+  height: 35px; /* Giảm chiều cao ô đáp án */
+  background-color: #E0E0E0; /* Màu xám nhạt hơn cho ô chưa chọn */
+  color: #000; /* Chữ đen để dễ đọc */
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ADD8E6; /* Viền nhạt cùng màu */
+  border: 1px solid #E0E0E0; /* Viền cùng màu nhạt */
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
@@ -56,12 +56,12 @@ h2 {
 }
 
 .option:hover {
-  background-color: #81BFD4; /* Màu nhạt hơn khi hover */
+  background-color: #C8C8C8; /* Màu nhạt khi hover */
 }
 
 .option.selected {
-  background-color: #1B3B5F; /* Màu đậm hơn khi được chọn */
-  border-color: #1B3B5F;
+  background-color: #1A2A3F; /* Màu đậm khi được chọn */
+  border-color: #1A2A3F;
   transform: scale(1.05);
 }
 
@@ -95,7 +95,7 @@ button:hover {
   .option {
     flex: 1;
     max-width: none;
-    height: 35px;
+    height: 30px; /* Giảm chiều cao hơn trên màn hình nhỏ */
     font-size: 15px;
     padding: 2px;
   }
