@@ -20,11 +20,11 @@ h2 {
 }
 
 .question {
-  margin-bottom: 30px; /* Giảm khoảng cách giữa các câu hỏi */
+  margin-bottom: 25px;
 }
 
 .question h3 {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-size: 20px;
   text-align: center;
 }
@@ -32,27 +32,27 @@ h2 {
 .options {
   display: flex;
   justify-content: space-between;
-  gap: 8px; /* Giảm khoảng cách giữa các ô đáp án */
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .option {
   flex: 1;
-  max-width: 180px; /* Giảm chiều rộng tối đa */
-  height: 50px; /* Giảm thêm chiều cao ô đáp án */
+  max-width: 180px;
+  height: 40px;
   background-color: #4a90e2;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #4a90e2;
-  font-size: 17px; /* Cỡ chữ vừa phải */
+  border: 1px solid #4a90e2;
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
-  white-space: normal; /* Ngắt dòng nếu cần */
+  white-space: normal;
   text-align: center;
-  border-radius: 8px; /* Bo góc nhỏ hơn */
-  padding: 5px; /* Thêm chút padding để thoáng hơn */
+  border-radius: 6px;
+  padding: 2px;
 }
 
 .option:hover {
@@ -60,7 +60,8 @@ h2 {
 }
 
 .option.selected {
-  background-color: #2C5F8A;
+  background-color: #1B3B5F; /* Màu đậm hơn khi được chọn */
+  border-color: #1B3B5F; /* Thêm viền cùng màu */
   transform: scale(1.05);
 }
 
@@ -94,9 +95,9 @@ button:hover {
   .option {
     flex: 1;
     max-width: none;
-    height: auto; /* Điều chỉnh chiều cao tự động */
-    font-size: 15px; /* Giảm cỡ chữ cho thiết bị nhỏ */
-    padding: 8px; /* Tăng padding nhẹ để đảm bảo nội dung thoáng */
+    height: 35px;
+    font-size: 15px;
+    padding: 2px;
   }
 
   h2, .question h3, button {
@@ -104,6 +105,6 @@ button:hover {
   }
 
   .options {
-    gap: 5px; /* Giảm khoảng cách giữa các ô đáp án */
+    gap: 5px;
   }
 }
