@@ -17,59 +17,64 @@ body {
 h2 {
   text-align: center;
   margin-bottom: 30px;
-  font-weight: bold; /* Đậm hơn tiêu đề chính */
+  font-weight: bold;
   font-size: 28px;
 }
 
 .question {
-  margin-bottom: 30px; /* Giảm khoảng cách giữa các câu hỏi */
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Căn giữa câu hỏi */
 }
 
 .question h3 {
-  margin-bottom: 10px;
-  font-size: 22px; /* Tăng cỡ chữ */
+  margin-bottom: 8px;
+  font-size: 22px;
   text-align: center;
-  font-weight: bold; /* In đậm */
-  color: #333; /* Màu chữ đậm hơn */
-  line-height: 1.5; /* Tăng khoảng cách dòng */
-  text-transform: uppercase; /* Chuyển sang chữ in hoa nếu cần nổi bật hơn */
+  font-weight: bold;
+  color: #333;
+  line-height: 1.4;
+  max-width: 600px; /* Giới hạn chiều rộng câu hỏi */
+  padding: 0 10px; /* Thêm padding để khớp với ô đáp án */
 }
 
 .options {
   display: flex;
-  justify-content: space-between;
-  gap: 8px; /* Giảm khoảng cách giữa các ô đáp án */
+  justify-content: center; /* Căn giữa các ô đáp án */
   flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 10px;
 }
 
 .option {
   flex: 1;
-  max-width: 180px; /* Giảm chiều rộng tối đa */
-  height: 45px; /* Giảm thêm chiều cao ô đáp án */
-  background-color: #D6E4F0; /* Màu nhạt hơn cho ô chưa chọn */
+  max-width: 160px;
+  height: 40px;
+  background-color: #EAF0F6;
   color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #D6E4F0;
-  font-size: 17px;
+  border: 1px solid #EAF0F6;
+  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
   white-space: normal;
   text-align: center;
   border-radius: 8px;
-  padding: 5px;
+  padding: 3px;
 }
 
 .option:hover {
-  background-color: #A8C4E2; /* Màu hover nhạt hơn */
+  background-color: #C0D7ED;
 }
 
 .option.selected {
-  background-color: #1A2A3F; /* Màu đậm hơn khi chọn */
+  background-color: #0D1B2A;
   color: white;
   transform: scale(1.05);
-  border-color: #1A2A3F;
+  border-color: #0D1B2A;
 }
 
 button {
@@ -104,7 +109,7 @@ button:hover {
     max-width: none;
     height: auto;
     font-size: 15px;
-    padding: 8px;
+    padding: 5px;
   }
 
   h2, .question h3, button {
@@ -112,6 +117,10 @@ button:hover {
   }
 
   .options {
-    gap: 5px;
+    gap: 4px;
+  }
+
+  .question h3 {
+    max-width: 100%; /* Chiều rộng tối đa trên màn hình nhỏ */
   }
 }
