@@ -20,14 +20,22 @@ h2 {
   text-align: center;
   margin-bottom: 40px;
   font-weight: bold;
-  font-size: 30px;
+  font-size: 36px; /* Tăng kích thước cho tiêu đề chính */
 }
 
 /* Phần hướng dẫn */
 .instructions {
-    text-align: justify; /* Căn đều hai bên cho văn bản */
-    padding: 0 20px; /* Thêm lề trái và phải nếu cần */
-    margin-bottom: 30px; /* Thêm khoảng cách dưới nếu cần thiết */
+  text-align: justify; /* Căn đều hai bên cho văn bản */
+  padding: 0 20px; /* Thêm lề trái và phải nếu cần */
+  margin-bottom: 30px; /* Thêm khoảng cách dưới nếu cần thiết */
+  font-size: 26px; /* Giảm kích thước chữ cho phần hướng dẫn */
+}
+
+/* Các đoạn văn bản có nội dung tương tự */
+.description {
+  font-size: 26px; /* Giảm kích thước chữ cho mô tả và hướng dẫn */
+  text-align: left; /* Căn lề bên trái cho mô tả */
+  margin-bottom: 20px; /* Thêm khoảng cách dưới nếu cần thiết */
 }
 
 /* Mỗi câu hỏi */
@@ -38,7 +46,7 @@ h2 {
 /* Tiêu đề câu hỏi */
 .question h3 {
   margin-bottom: 12px;
-  font-size: 26px; /* Kích thước font lớn hơn */
+  font-size: 30px; /* Tăng kích thước font cho tiêu đề câu hỏi */
   text-align: left; /* Căn lề bên trái */
   font-weight: bold;
   color: #333;
@@ -50,26 +58,26 @@ h2 {
 .options {
   display: flex;
   justify-content: space-evenly; /* Dàn đều khoảng cách giữa các ô */
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Cho phép xuống dòng nếu cần */
   gap: 8px;
   padding: 0 20px;
 }
 
 /* Các ô đáp án */
 .option {
-  flex: 1;
-  max-width: 200px; /* Cho phép mỗi ô đáp án rộng hơn */
-  height: 45px;
+  flex: 1; /* Cho phép ô đáp án mở rộng để chiếm không gian */
+  min-width: 200px; /* Chiều rộng tối thiểu cho mỗi ô */
+  height: 70px; /* Tăng chiều cao cho các ô đáp án */
   background-color: #EAF0F6;
   color: #000;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Căn giữa nội dung */
+  align-items: center; /* Căn giữa nội dung theo chiều dọc */
   border: 1px solid #EAF0F6;
-  font-size: 17px;
+  font-size: 20px; /* Tăng kích thước chữ trong ô đáp án */
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
-  white-space: normal;
+  white-space: normal; /* Cho phép nội dung xuống dòng */
   text-align: center;
   border-radius: 8px;
   padding: 5px;
@@ -97,7 +105,7 @@ button {
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 24px; /* Tăng kích thước chữ cho nút */
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -108,26 +116,31 @@ button:hover {
 /* Phần hiển thị kết quả */
 #result {
   text-align: left; /* Căn lề bên trái */
-  font-size: 22px;
+  font-size: 24px; /* Tăng kích thước chữ cho kết quả */
   margin-top: 25px;
   padding-left: 20px; /* Thêm lề trái để căn lề cho phù hợp với nút tính điểm */
 }
 
 /* Media query cho màn hình nhỏ hơn */
 @media (max-width: 768px) {
+  .options {
+    flex-direction: column; /* Xếp các ô đáp án theo chiều dọc */
+    align-items: center; /* Căn giữa các ô */
+  }
+
   .option {
-    max-width: none;
-    height: auto;
-    font-size: 15px;
-    padding: 8px;
+    width: 100%; /* Đặt chiều rộng tối đa cho ô đáp án để chiếm toàn bộ chiều rộng */
+    margin-bottom: 10px; /* Thêm khoảng cách giữa các ô */
+    height: 60px; /* Giữ chiều cao cố định cho các ô đáp án */
+    font-size: 15px; /* Kích thước chữ nhỏ hơn cho màn hình nhỏ */
+    padding: 8px; /* Thêm padding cho ô đáp án */
   }
 
   h2, .question h3, button {
-    font-size: 18px;
+    font-size: 18px; /* Kích thước chữ nhỏ hơn cho phần khác */
   }
 
-  .options {
-    gap: 6px;
+  #result {
+    font-size: 18px; /* Kích thước chữ nhỏ hơn cho kết quả */
   }
 }
-
