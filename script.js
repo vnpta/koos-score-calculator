@@ -74,5 +74,8 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
         }
 
         document.getElementById('result').innerText = resultText;
+
+        // Hiển thị thông báo cảm ơn
+        document.getElementById('thankYouMessage').style.display = 'block';
     }
 });
