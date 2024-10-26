@@ -6,7 +6,7 @@ body {
 }
 
 .container {
-  max-width: 1400px; /* Tăng chiều rộng trang */
+  max-width: 1400px;
   margin: 20px auto;
   padding: 20px;
   background-color: white;
@@ -20,38 +20,39 @@ h2 {
 }
 
 .question {
-  margin-bottom: 40px;
+  margin-bottom: 30px; /* Giảm khoảng cách giữa các câu hỏi */
 }
 
 .question h3 {
   margin-bottom: 10px;
-  font-size: 20px; /* Tăng cỡ chữ cho câu hỏi */
+  font-size: 20px;
   text-align: center;
 }
 
 .options {
   display: flex;
-  justify-content: space-between; /* Các ô đáp án nằm sát nhau */
-  gap: 10px; /* Khoảng cách giữa các ô đáp án */
-  flex-wrap: wrap; /* Cho phép ô đáp án xuống hàng khi không đủ chỗ */
+  justify-content: space-between;
+  gap: 8px; /* Giảm khoảng cách giữa các ô đáp án */
+  flex-wrap: wrap;
 }
 
 .option {
-  flex: 1; /* Tăng chiều rộng ô đáp án */
-  max-width: 200px; /* Tăng kích thước tối đa của ô đáp án */
-  height: 60px; /* Giảm chiều cao ô đáp án */
+  flex: 1;
+  max-width: 180px; /* Giảm chiều rộng tối đa */
+  height: 50px; /* Giảm thêm chiều cao ô đáp án */
   background-color: #4a90e2;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid #4a90e2;
-  font-size: 18px; /* Tăng cỡ chữ */
+  font-size: 17px; /* Cỡ chữ vừa phải */
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
-  white-space: normal; /* Cho phép ngắt dòng để đảm bảo nội dung không bị ngắt dòng */
-  text-align: center; /* Căn giữa chữ trong ô đáp án */
-  border-radius: 10px; /* Bo tròn ô */
+  white-space: normal; /* Ngắt dòng nếu cần */
+  text-align: center;
+  border-radius: 8px; /* Bo góc nhỏ hơn */
+  padding: 5px; /* Thêm chút padding để thoáng hơn */
 }
 
 .option:hover {
@@ -59,8 +60,8 @@ h2 {
 }
 
 .option.selected {
-  background-color: #2C5F8A; /* Màu đậm hơn khi được chọn */
-  transform: scale(1.05); /* Phóng to nhẹ khi được chọn */
+  background-color: #2C5F8A;
+  transform: scale(1.05);
 }
 
 button {
@@ -68,7 +69,7 @@ button {
   width: 100%;
   max-width: 300px;
   margin: 30px auto;
-  padding: 15px;
+  padding: 12px;
   background-color: #4CAF50;
   color: white;
   border: none;
@@ -91,17 +92,18 @@ button:hover {
 /* Media query cho màn hình nhỏ hơn */
 @media (max-width: 768px) {
   .option {
-    flex: 1; /* Cho phép ô đáp án co dãn theo chiều rộng */
-    max-width: none; /* Bỏ giới hạn chiều rộng tối đa */
-    height: auto; /* Tự động điều chỉnh chiều cao */
-    font-size: 16px; /* Giảm cỡ chữ */
+    flex: 1;
+    max-width: none;
+    height: auto; /* Điều chỉnh chiều cao tự động */
+    font-size: 15px; /* Giảm cỡ chữ cho thiết bị nhỏ */
+    padding: 8px; /* Tăng padding nhẹ để đảm bảo nội dung thoáng */
   }
 
   h2, .question h3, button {
-    font-size: 16px; /* Giảm cỡ chữ cho tiêu đề và nút */
+    font-size: 16px;
   }
 
   .options {
-    gap: 5px; /* Giảm khoảng cách giữa các ô đáp án khi màn hình nhỏ */
+    gap: 5px; /* Giảm khoảng cách giữa các ô đáp án */
   }
 }
