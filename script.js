@@ -1,10 +1,7 @@
-// Thêm sự kiện cho từng ô lựa chọn
 document.querySelectorAll('.option').forEach(option => {
     option.addEventListener('click', function () {
         const parent = this.parentElement;
-        // Xóa lớp 'selected' khỏi tất cả các ô trong cùng câu hỏi
         parent.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-        // Thêm lớp 'selected' vào ô được chọn
         this.classList.add('selected');
     });
 });
@@ -12,28 +9,27 @@ document.querySelectorAll('.option').forEach(option => {
 document.getElementById('calculateBtn').addEventListener('click', function () {
     let total = 0;
     let count = 0;
-    let unansweredQuestions = []; // Mảng lưu trữ các câu hỏi chưa trả lời
+    let firstUnansweredQuestion = null;
 
-    // Lặp qua các câu hỏi và tính điểm
-    document.querySelectorAll('.question').forEach((question, index) => {
+    document.querySelectorAll('.question').forEach((question) => {
         const selectedOption = question.querySelector('.option.selected');
         if (selectedOption) {
             total += parseInt(selectedOption.getAttribute('data-value'));
             count++;
-            question.classList.remove('unanswered'); // Gỡ bỏ viền đỏ nếu đã trả lời
+            question.classList.remove('unanswered');
         } else {
-            unansweredQuestions.push(index + 1); // Lưu lại số thứ tự câu hỏi chưa trả lời
-            question.classList.add('unanswered'); // Thêm viền đỏ cho câu hỏi chưa trả lời
+            question.classList.add('unanswered');
+            if (!firstUnansweredQuestion) {
+                firstUnansweredQuestion = question;
+            }
         }
     });
 
-    if (unansweredQuestions.length > 0) {
-        // Thông báo nếu còn câu hỏi chưa trả lời
-        document.getElementById('result').innerText = 
-            `Bạn phải trả lời tất cả các câu hỏi! Câu hỏi chưa trả lời: ${unansweredQuestions.join(', ')}`;
+    if (firstUnansweredQuestion) {
+        firstUnansweredQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        alert('Bạn phải trả lời tất cả các câu hỏi!');
     } else {
-        // Tính điểm nếu tất cả câu hỏi đã được trả lời
-        const avg = 100 - (total / (count * 4)) * 100; // Tính điểm phần trăm theo công thức mới
+        const avg = 100 - (total / (count * 4)) * 100;
         document.getElementById('result').innerText = `Điểm KOOS của bạn là: ${avg.toFixed(2)}%`;
     }
 });
