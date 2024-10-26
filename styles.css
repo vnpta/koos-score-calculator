@@ -17,6 +17,8 @@ body {
 h2 {
   text-align: center;
   margin-bottom: 30px;
+  font-weight: bold; /* Đậm hơn tiêu đề chính */
+  font-size: 28px;
 }
 
 .question {
@@ -25,8 +27,12 @@ h2 {
 
 .question h3 {
   margin-bottom: 10px;
-  font-size: 20px;
+  font-size: 22px; /* Tăng cỡ chữ */
   text-align: center;
+  font-weight: bold; /* In đậm */
+  color: #333; /* Màu chữ đậm hơn */
+  line-height: 1.5; /* Tăng khoảng cách dòng */
+  text-transform: uppercase; /* Chuyển sang chữ in hoa nếu cần nổi bật hơn */
 }
 
 .options {
@@ -39,29 +45,31 @@ h2 {
 .option {
   flex: 1;
   max-width: 180px; /* Giảm chiều rộng tối đa */
-  height: 50px; /* Giảm thêm chiều cao ô đáp án */
-  background-color: #4a90e2;
-  color: white;
+  height: 45px; /* Giảm thêm chiều cao ô đáp án */
+  background-color: #D6E4F0; /* Màu nhạt hơn cho ô chưa chọn */
+  color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #4a90e2;
-  font-size: 17px; /* Cỡ chữ vừa phải */
+  border: 2px solid #D6E4F0;
+  font-size: 17px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
-  white-space: normal; /* Ngắt dòng nếu cần */
+  white-space: normal;
   text-align: center;
-  border-radius: 8px; /* Bo góc nhỏ hơn */
-  padding: 5px; /* Thêm chút padding để thoáng hơn */
+  border-radius: 8px;
+  padding: 5px;
 }
 
 .option:hover {
-  background-color: #357ABD;
+  background-color: #A8C4E2; /* Màu hover nhạt hơn */
 }
 
 .option.selected {
-  background-color: #2C5F8A;
+  background-color: #1A2A3F; /* Màu đậm hơn khi chọn */
+  color: white;
   transform: scale(1.05);
+  border-color: #1A2A3F;
 }
 
 button {
@@ -94,16 +102,16 @@ button:hover {
   .option {
     flex: 1;
     max-width: none;
-    height: auto; /* Điều chỉnh chiều cao tự động */
-    font-size: 15px; /* Giảm cỡ chữ cho thiết bị nhỏ */
-    padding: 8px; /* Tăng padding nhẹ để đảm bảo nội dung thoáng */
+    height: auto;
+    font-size: 15px;
+    padding: 8px;
   }
 
   h2, .question h3, button {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .options {
-    gap: 5px; /* Giảm khoảng cách giữa các ô đáp án */
+    gap: 5px;
   }
 }
