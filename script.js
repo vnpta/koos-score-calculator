@@ -1,3 +1,16 @@
+// Ngăn chuột phải trên toàn bộ trang
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Ngăn các phím tắt mở DevTools và xem mã nguồn
+document.addEventListener('keydown', function (event) {
+    if (event.key === "F12" || 
+        (event.ctrlKey && event.shiftKey && event.key === "I") || 
+        (event.ctrlKey && event.key === "U")) {
+        event.preventDefault();
+        alert("Chức năng này đã bị vô hiệu hóa.");
+    }
+});
+
 // Thêm sự kiện cho từng ô lựa chọn
 document.querySelectorAll('.option').forEach(option => {
     option.addEventListener('click', function () {
@@ -11,14 +24,14 @@ document.querySelectorAll('.option').forEach(option => {
 
 // Nhóm câu hỏi theo các mục
 const questionGroups = {
-    symptoms: [1, 2, 3, 4, 5, 6, 7],          // Triệu chứng
-    pain: [8, 9, 10, 11, 12, 13, 14, 15, 16], // Đau
-    adl: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33], // Hoạt động sinh hoạt
-    sport: [34, 35, 36, 37, 38],               // Thể thao và giải trí
-    qol: [39, 40, 41, 42]                      // Chất lượng cuộc sống
+    symptoms: [1, 2, 3, 4, 5, 6, 7],
+    pain: [8, 9, 10, 11, 12, 13, 14, 15, 16],
+    adl: [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33],
+    sport: [34, 35, 36, 37, 38],
+    qol: [39, 40, 41, 42]
 };
 
-// Hàm tính điểm cho từng mục
+// Hàm tính điểm KOOS
 function calculateKOOSScore(questions) {
     let total = 0;
     let answeredCount = 0;
@@ -32,33 +45,31 @@ function calculateKOOSScore(questions) {
         }
     });
 
-    if (answeredCount === 0) return null; // Nếu không có câu trả lời nào, trả về null
-    const averageScore = total / answeredCount; // Tính trung bình cộng
-    return Math.round(100 - (averageScore / 4) * 100); // Làm tròn và tính điểm KOOS theo công thức
+    if (answeredCount === 0) return null;
+    const averageScore = total / answeredCount;
+    return Math.round(100 - (averageScore / 4) * 100);
 }
 
 document.getElementById('calculateBtn').addEventListener('click', function () {
-    let firstUnansweredQuestion = null; // Lưu câu hỏi chưa trả lời đầu tiên
+    let firstUnansweredQuestion = null;
 
-    // Kiểm tra câu hỏi chưa trả lời và thêm viền đỏ nếu có
+    // Kiểm tra câu hỏi chưa trả lời và thêm viền đỏ
     document.querySelectorAll('.question').forEach((question) => {
         const selectedOption = question.querySelector('.option.selected');
         if (!selectedOption) {
-            question.classList.add('unanswered'); // Thêm viền đỏ cho câu hỏi chưa trả lời
+            question.classList.add('unanswered');
             if (!firstUnansweredQuestion) {
-                firstUnansweredQuestion = question; // Lưu lại câu hỏi chưa trả lời đầu tiên
+                firstUnansweredQuestion = question;
             }
         } else {
-            question.classList.remove('unanswered'); // Gỡ bỏ viền đỏ nếu đã trả lời
+            question.classList.remove('unanswered');
         }
     });
 
     if (firstUnansweredQuestion) {
-        // Cuộn đến câu hỏi chưa trả lời đầu tiên
         firstUnansweredQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
         alert('Bạn phải trả lời tất cả các câu hỏi!');
     } else {
-        // Tính điểm KOOS cho từng mục
         const scores = {
             symptoms: calculateKOOSScore(questionGroups.symptoms),
             pain: calculateKOOSScore(questionGroups.pain),
@@ -67,15 +78,12 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
             qol: calculateKOOSScore(questionGroups.qol)
         };
 
-        // Hiển thị kết quả
         let resultText = 'Điểm KOOS của bạn:\n';
         for (const [key, value] of Object.entries(scores)) {
             resultText += `${key.toUpperCase()}: ${value !== null ? value : 'Chưa trả lời đủ câu hỏi'}\n`;
         }
 
         document.getElementById('result').innerText = resultText;
-
-        // Hiển thị thông báo cảm ơn
         document.getElementById('thankYouMessage').style.display = 'block';
     }
 });
