@@ -5,19 +5,23 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 document.addEventListener('keydown', function (event) {
     if (event.key === "F12" || 
         (event.ctrlKey && event.shiftKey && event.key === "I") || 
-        (event.ctrlKey && event.key === "U")) {
+        (event.ctrlKey && event.key === "U") || 
+        (event.ctrlKey && event.key === "S")) {
         event.preventDefault();
         alert("Chức năng này đã bị vô hiệu hóa.");
     }
 });
 
+// Ngăn trình duyệt tự động mở DevTools khi trang tải
+window.onload = function() {
+    console.log('Chức năng DevTools đã bị chặn.');
+};
+
 // Thêm sự kiện cho từng ô lựa chọn
 document.querySelectorAll('.option').forEach(option => {
     option.addEventListener('click', function () {
         const parent = this.parentElement;
-        // Xóa lớp 'selected' khỏi tất cả các ô trong cùng câu hỏi
         parent.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-        // Thêm lớp 'selected' vào ô được chọn
         this.classList.add('selected');
     });
 });
