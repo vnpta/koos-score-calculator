@@ -43,15 +43,16 @@ h2 {
   margin-bottom: 25px;
 }
 
-/* Tiêu đề câu hỏi */
+/* Các tiêu đề câu hỏi */
 .question h3 {
   margin-bottom: 12px;
   font-size: 30px; /* Tăng kích thước font cho tiêu đề câu hỏi */
-  text-align: left; /* Căn lề bên trái */
+  text-align: justify; /* Căn đều tiêu đề câu hỏi */
   font-weight: bold;
   color: #333;
   line-height: 1.5;
-  padding-left: 20px; /* Thêm lề trái để căn lề cho phù hợp với ô đáp án */
+  padding-left: 20px; /* Giữ lề trái cho tiêu đề câu hỏi */
+  padding-right: 20px; /* Thêm lề phải để căn lề đều hai bên */
 }
 
 /* Các đáp án dàn đều và thoáng hơn */
