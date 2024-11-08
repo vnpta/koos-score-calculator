@@ -1,8 +1,8 @@
-// Ngăn chuột phải trên toàn bộ trang
-document.addEventListener('contextmenu', event => event.preventDefault());
+// Loại bỏ chức năng ngăn chuột phải (nếu muốn)
+document.removeEventListener('contextmenu', event => event.preventDefault());
 
-// Ngăn các phím tắt mở DevTools và xem mã nguồn
-document.addEventListener('keydown', function (event) {
+// Loại bỏ việc ngăn các phím tắt mở DevTools và xem mã nguồn
+document.removeEventListener('keydown', function (event) {
     if (event.key === "F12" || 
         (event.ctrlKey && event.shiftKey && event.key === "I") || 
         (event.ctrlKey && event.key === "U") || 
@@ -12,7 +12,7 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-// Ngăn trình duyệt tự động mở DevTools khi trang tải
+// Loại bỏ ngăn trình duyệt tự động mở DevTools khi trang tải
 window.onload = function() {
     console.log('Chức năng DevTools đã bị chặn.');
 };
@@ -116,7 +116,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', function () 
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
-    
+
     // Tải toàn bộ trang
     html2pdf().set(options).from(document.body).save().then(() => {
         // Reset form after downloading the PDF
