@@ -50,13 +50,25 @@ function displayKOOSResults() {
   };
 
   let resultText = "Điểm KOOS của bạn:\n";
+  let allAnswered = true;  // Biến kiểm tra xem có câu hỏi nào chưa trả lời không
   for (const [key, value] of Object.entries(scores)) {
-    resultText += `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n`;
+    if (value === null) {
+      resultText += `${key.toUpperCase()}: Chưa trả lời đủ câu hỏi\n`;
+      allAnswered = false;  // Nếu có câu hỏi chưa trả lời, đánh dấu
+    } else {
+      resultText += `${key.toUpperCase()}: ${value}\n`;
+    }
   }
 
   document.getElementById("result").innerText = resultText;
-  document.getElementById("thankYouMessage").style.display = "block";
-  document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
+
+  // Nếu có đủ câu trả lời, hiển thị nút tải PDF
+  if (allAnswered) {
+    document.getElementById("thankYouMessage").style.display = "block";
+    document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
+  } else {
+    alert("Vui lòng trả lời tất cả các câu hỏi trước khi tính điểm.");
+  }
 }
 
 // Xử lý sự kiện tính toán
