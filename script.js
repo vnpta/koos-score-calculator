@@ -110,7 +110,7 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
 // Hàm gửi yêu cầu POST tới PDFShift API để tạo PDF
 async function generatePDF() {
     // Tạo nội dung HTML của trang (bạn có thể thay đổi nội dung cần tạo PDF)
-    const htmlContent = document.documentElement.outerHTML;  // Toàn bộ nội dung HTML trang
+    const htmlContent = document.getElementById('result').innerText;  // Chỉ lấy kết quả để tạo PDF, tránh việc gửi toàn bộ trang HTML
 
     const data = {
         source: htmlContent,  // Nội dung HTML trang của bạn
@@ -122,23 +122,27 @@ async function generatePDF() {
 
     try {
         // Gửi yêu cầu POST đến API của PDFShift
-        const response = await fetch('https://api.pdfshift.io/v3/convert', {
+        const response = await fetch('https://api.pdfshift.io/v3/convert/pdf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer sk_15d6fb4517920262f972a5ab8fd352af0cf939c8'  // Thay 'YOUR_API_KEY' bằng API key của bạn
+                'Authorization': 'Basic ' + btoa('api:sk_15d6fb4517920262f972a5ab8fd352af0cf939c8')  // Thay 'YOUR_API_KEY' bằng API key của bạn
             },
             body: JSON.stringify(data)
         });
 
-        const pdfBlob = await response.blob();  // Nhận dữ liệu PDF từ phản hồi
-        const pdfURL = URL.createObjectURL(pdfBlob);  // Tạo URL cho tệp PDF
+        if (response.ok) {
+            const pdfBlob = await response.blob();  // Nhận dữ liệu PDF từ phản hồi
+            const pdfURL = URL.createObjectURL(pdfBlob);  // Tạo URL cho tệp PDF
 
-        // Tạo một liên kết tải về PDF
-        const link = document.createElement('a');
-        link.href = pdfURL;
-        link.download = 'KOOS_Score_Report.pdf';  // Tên tệp PDF
-        link.click();  // Thực hiện tải tệp xuống
+            // Tạo một liên kết tải về PDF
+            const link = document.createElement('a');
+            link.href = pdfURL;
+            link.download = 'KOOS_Score_Report.pdf';  // Tên tệp PDF
+            link.click();  // Thực hiện tải tệp xuống
+        } else {
+            console.error("Có lỗi xảy ra khi tạo PDF: ", await response.text());
+        }
     } catch (error) {
         console.error("Có lỗi xảy ra khi tạo PDF: ", error);
     }
