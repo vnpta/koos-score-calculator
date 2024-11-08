@@ -96,6 +96,12 @@ function generatePDF() {
   const name = document.getElementById("nameInput").value;
   const birthYear = document.getElementById("birthYearInput").value;
 
+  // Kiểm tra nếu người dùng đã nhập tên và năm sinh
+  if (!name || !birthYear) {
+    alert("Vui lòng nhập tên và năm sinh!");
+    return;
+  }
+
   // Lấy ngày giờ tải xuống
   const downloadDate = new Date().toLocaleString(); // Ngày và giờ hiện tại
 
@@ -141,27 +147,14 @@ function generatePDF() {
   doc.text("KOOS", 15, 280); // Vị trí watermark ở dưới bên trái
 
   // Tải xuống file PDF
- doc.save({
-    filename: 'KOOS_Score_Report.pdf',
-    autoBom: true
-});
-
+  doc.save("KOOS_Score_Report.pdf");
 }
 
 // Thêm sự kiện cho nút tải PDF
 document
   .getElementById("downloadPdfBtn")
   .addEventListener("click", function () {
-    // Kiểm tra nếu người dùng đã nhập tên và năm sinh
-    const name = document.getElementById("nameInput").value;
-    const birthYear = document.getElementById("birthYearInput").value;
-
-    if (!name || !birthYear) {
-      alert("Vui lòng nhập tên và năm sinh!");
-      return;
-    }
-
-    generatePDF(); // Gọi hàm tạo PDF nếu có đủ thông tin
+    generatePDF(); // Gọi hàm tạo PDF
   });
 
 // Đảm bảo nút tải PDF ẩn mặc định
