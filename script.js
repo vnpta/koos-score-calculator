@@ -54,6 +54,14 @@ function calculateKOOSScore(questions) {
     return Math.round(100 - (averageScore / 4) * 100);
 }
 
+// Hàm reset lựa chọn và kết quả
+function resetForm() {
+    document.querySelectorAll('.option.selected').forEach(option => option.classList.remove('selected'));
+    document.getElementById('result').innerText = '';
+    document.getElementById('thankYouMessage').style.display = 'none';
+    document.getElementById('downloadPdfBtn').style.display = 'none';
+}
+
 document.getElementById('calculateBtn').addEventListener('click', function () {
     let firstUnansweredQuestion = null;
 
@@ -89,5 +97,25 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
 
         document.getElementById('result').innerText = resultText;
         document.getElementById('thankYouMessage').style.display = 'block';
+
+        // Show the download button after the score is calculated
+        document.getElementById('downloadPdfBtn').style.display = 'inline-block';
     }
+});
+
+// Tạo PDF của kết quả và reset form sau khi tải
+document.getElementById('downloadPdfBtn').addEventListener('click', function () {
+    const resultSection = document.getElementById('result');
+    const options = {
+        margin: 1,
+        filename: 'KOOS_Score_Report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(options).from(resultSection).save().then(() => {
+        // Reset form after downloading the PDF
+        resetForm();
+    });
 });
