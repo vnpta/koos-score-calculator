@@ -575,7 +575,17 @@
         </form>
     </div>
    <script src="script.js"></script>
-    <button id="downloadPdfBtn">Tải PDF</button>
+<!-- Form nhập tên và năm sinh -->
+<div id="userInfoForm" style="margin-bottom: 20px;">
+    <label for="nameInput">Tên:</label>
+    <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required><br><br>
+
+    <label for="birthYearInput">Năm sinh:</label>
+    <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required><br><br>
+
+    <button id="downloadPdfBtn" style="display: inline-block;">Lưu kết quả của bạn</button>
+</div>
+
     <footer style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f0f0f0;">
     <p>© KOOS TIẾNG VIỆT</p>
 </footer>
