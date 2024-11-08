@@ -1,22 +1,3 @@
-// Loại bỏ chức năng ngăn chuột phải (nếu muốn)
-document.removeEventListener('contextmenu', event => event.preventDefault());
-
-// Loại bỏ việc ngăn các phím tắt mở DevTools và xem mã nguồn
-document.removeEventListener('keydown', function (event) {
-    if (event.key === "F12" || 
-        (event.ctrlKey && event.shiftKey && event.key === "I") || 
-        (event.ctrlKey && event.key === "U") || 
-        (event.ctrlKey && event.key === "S")) {
-        event.preventDefault();
-        alert("Chức năng này đã bị vô hiệu hóa.");
-    }
-});
-
-// Loại bỏ ngăn trình duyệt tự động mở DevTools khi trang tải
-window.onload = function() {
-    console.log('Chức năng DevTools đã bị chặn.');
-};
-
 // Thêm sự kiện cho từng ô lựa chọn
 document.querySelectorAll('.option').forEach(option => {
     option.addEventListener('click', function () {
@@ -52,14 +33,6 @@ function calculateKOOSScore(questions) {
     if (answeredCount === 0) return null;
     const averageScore = total / answeredCount;
     return Math.round(100 - (averageScore / 4) * 100);
-}
-
-// Hàm reset lựa chọn và kết quả
-function resetForm() {
-    document.querySelectorAll('.option.selected').forEach(option => option.classList.remove('selected'));
-    document.getElementById('result').innerText = '';
-    document.getElementById('thankYouMessage').style.display = 'none';
-    document.getElementById('downloadPdfBtn').style.display = 'none';
 }
 
 // Hàm hiển thị kết quả KOOS
@@ -107,45 +80,55 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
     }
 });
 
-// Hàm gửi yêu cầu POST tới PDFShift API để tạo PDF
-async function generatePDF() {
-    // Tạo nội dung HTML của trang (bạn có thể thay đổi nội dung cần tạo PDF)
-    const htmlContent = document.getElementById('result').innerText;  // Chỉ lấy kết quả để tạo PDF, tránh việc gửi toàn bộ trang HTML
+// Hàm tạo file PDF
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-    const data = {
-        source: htmlContent,  // Nội dung HTML trang của bạn
-        options: {
-            landscape: false,    // Chế độ trang giấy dọc (portrait) hoặc ngang (landscape)
-            page_size: "A4",     // Kích thước trang PDF
-        }
+    // Thêm tiêu đề
+    doc.setFontSize(16);
+    doc.text("Kết quả KOOS", 10, 10);
+
+    // Đặt font cho nội dung câu hỏi và câu trả lời
+    doc.setFontSize(12);
+
+    // Mảng lưu kết quả câu hỏi và đáp án đã chọn
+    const resultContent = [];
+
+    // Thu thập câu hỏi và đáp án đã chọn
+    document.querySelectorAll('.question').forEach((question, index) => {
+        const questionText = question.querySelector('.question-text').innerText;
+        const selectedOption = question.querySelector('.option.selected');
+        const answerText = selectedOption ? selectedOption.innerText : 'Chưa chọn';
+
+        resultContent.push(`Câu ${index + 1}: ${questionText}`);
+        resultContent.push(`Đáp án: ${answerText}`);
+        resultContent.push(''); // Khoảng cách giữa các câu hỏi
+    });
+
+    // Thêm câu hỏi và đáp án vào file PDF
+    resultContent.forEach((line, i) => {
+        doc.text(line, 10, 20 + (i * 10)); // Thêm từng dòng vào trang PDF
+    });
+
+    // Tạo điểm KOOS
+    const scores = {
+        symptoms: calculateKOOSScore(questionGroups.symptoms),
+        pain: calculateKOOSScore(questionGroups.pain),
+        adl: calculateKOOSScore(questionGroups.adl),
+        sport: calculateKOOSScore(questionGroups.sport),
+        qol: calculateKOOSScore(questionGroups.qol)
     };
 
-    try {
-        // Gửi yêu cầu POST đến API của PDFShift
-        const response = await fetch('https://api.pdfshift.io/v3/convert/pdf', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + btoa('api:sk_15d6fb4517920262f972a5ab8fd352af0cf939c8')  // Thay 'YOUR_API_KEY' bằng API key của bạn
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (response.ok) {
-            const pdfBlob = await response.blob();  // Nhận dữ liệu PDF từ phản hồi
-            const pdfURL = URL.createObjectURL(pdfBlob);  // Tạo URL cho tệp PDF
-
-            // Tạo một liên kết tải về PDF
-            const link = document.createElement('a');
-            link.href = pdfURL;
-            link.download = 'KOOS_Score_Report.pdf';  // Tên tệp PDF
-            link.click();  // Thực hiện tải tệp xuống
-        } else {
-            console.error("Có lỗi xảy ra khi tạo PDF: ", await response.text());
-        }
-    } catch (error) {
-        console.error("Có lỗi xảy ra khi tạo PDF: ", error);
+    let scoreText = '\nĐiểm KOOS:\n';
+    for (const [key, value] of Object.entries(scores)) {
+        scoreText += `${key.toUpperCase()}: ${value !== null ? value : 'Chưa trả lời đủ câu hỏi'}\n`;
     }
+
+    doc.text(scoreText, 10, 20 + (resultContent.length * 10));  // Thêm điểm số vào cuối PDF
+
+    // Tải xuống file PDF
+    doc.save('KOOS_Score_Report.pdf');
 }
 
 // Thêm sự kiện cho nút tải PDF
