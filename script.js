@@ -107,19 +107,44 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
     }
 });
 
-// Tạo PDF của toàn bộ trang và reset form sau khi tải
-document.getElementById('downloadPdfBtn').addEventListener('click', function () {
-    const options = {
-        margin: 1,
-        filename: 'KOOS_Score_Report.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+// Hàm gửi yêu cầu POST tới PDFShift API để tạo PDF
+async function generatePDF() {
+    // Tạo nội dung HTML của trang (bạn có thể thay đổi nội dung cần tạo PDF)
+    const htmlContent = document.documentElement.outerHTML;  // Toàn bộ nội dung HTML trang
+
+    const data = {
+        source: htmlContent,  // Nội dung HTML trang của bạn
+        options: {
+            landscape: false,    // Chế độ trang giấy dọc (portrait) hoặc ngang (landscape)
+            page_size: "A4",     // Kích thước trang PDF
+        }
     };
 
-    // Tải toàn bộ trang
-    html2pdf().set(options).from(document.body).save().then(() => {
-        // Reset form after downloading the PDF
-        resetForm();
-    });
+    try {
+        // Gửi yêu cầu POST đến API của PDFShift
+        const response = await fetch('https://api.pdfshift.io/v3/convert', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer sk_15d6fb4517920262f972a5ab8fd352af0cf939c8'  // Thay 'YOUR_API_KEY' bằng API key của bạn
+            },
+            body: JSON.stringify(data)
+        });
+
+        const pdfBlob = await response.blob();  // Nhận dữ liệu PDF từ phản hồi
+        const pdfURL = URL.createObjectURL(pdfBlob);  // Tạo URL cho tệp PDF
+
+        // Tạo một liên kết tải về PDF
+        const link = document.createElement('a');
+        link.href = pdfURL;
+        link.download = 'KOOS_Score_Report.pdf';  // Tên tệp PDF
+        link.click();  // Thực hiện tải tệp xuống
+    } catch (error) {
+        console.error("Có lỗi xảy ra khi tạo PDF: ", error);
+    }
+}
+
+// Thêm sự kiện cho nút tải PDF
+document.getElementById('downloadPdfBtn').addEventListener('click', function () {
+    generatePDF();  // Gọi hàm tạo PDF
 });
