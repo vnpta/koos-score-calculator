@@ -107,9 +107,8 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
     }
 });
 
-// Tạo PDF của kết quả và reset form sau khi tải
+// Tạo PDF của toàn bộ trang và reset form sau khi tải
 document.getElementById('downloadPdfBtn').addEventListener('click', function () {
-    const resultSection = document.getElementById('result');
     const options = {
         margin: 1,
         filename: 'KOOS_Score_Report.pdf',
@@ -118,7 +117,8 @@ document.getElementById('downloadPdfBtn').addEventListener('click', function () 
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
     
-    html2pdf().set(options).from(resultSection).save().then(() => {
+    // Tải toàn bộ trang
+    html2pdf().set(options).from(document.body).save().then(() => {
         // Reset form after downloading the PDF
         resetForm();
     });
