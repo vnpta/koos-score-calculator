@@ -62,6 +62,27 @@ function resetForm() {
     document.getElementById('downloadPdfBtn').style.display = 'none';
 }
 
+// Hàm hiển thị kết quả KOOS
+function displayKOOSResults() {
+    const scores = {
+        symptoms: calculateKOOSScore(questionGroups.symptoms),
+        pain: calculateKOOSScore(questionGroups.pain),
+        adl: calculateKOOSScore(questionGroups.adl),
+        sport: calculateKOOSScore(questionGroups.sport),
+        qol: calculateKOOSScore(questionGroups.qol)
+    };
+
+    let resultText = 'Điểm KOOS của bạn:\n';
+    for (const [key, value] of Object.entries(scores)) {
+        resultText += `${key.toUpperCase()}: ${value !== null ? value : 'Chưa trả lời đủ câu hỏi'}\n`;
+    }
+
+    document.getElementById('result').innerText = resultText;
+    document.getElementById('thankYouMessage').style.display = 'block';
+    document.getElementById('downloadPdfBtn').style.display = 'inline-block';
+}
+
+// Xử lý sự kiện tính toán
 document.getElementById('calculateBtn').addEventListener('click', function () {
     let firstUnansweredQuestion = null;
 
@@ -82,24 +103,7 @@ document.getElementById('calculateBtn').addEventListener('click', function () {
         firstUnansweredQuestion.scrollIntoView({ behavior: 'smooth', block: 'center' });
         alert('Bạn phải trả lời tất cả các câu hỏi!');
     } else {
-        const scores = {
-            symptoms: calculateKOOSScore(questionGroups.symptoms),
-            pain: calculateKOOSScore(questionGroups.pain),
-            adl: calculateKOOSScore(questionGroups.adl),
-            sport: calculateKOOSScore(questionGroups.sport),
-            qol: calculateKOOSScore(questionGroups.qol)
-        };
-
-        let resultText = 'Điểm KOOS của bạn:\n';
-        for (const [key, value] of Object.entries(scores)) {
-            resultText += `${key.toUpperCase()}: ${value !== null ? value : 'Chưa trả lời đủ câu hỏi'}\n`;
-        }
-
-        document.getElementById('result').innerText = resultText;
-        document.getElementById('thankYouMessage').style.display = 'block';
-
-        // Show the download button after the score is calculated
-        document.getElementById('downloadPdfBtn').style.display = 'inline-block';
+        displayKOOSResults();
     }
 });
 
