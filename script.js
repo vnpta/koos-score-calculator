@@ -141,7 +141,11 @@ function generatePDF() {
   doc.text("KOOS", 15, 280); // Vị trí watermark ở dưới bên trái
 
   // Tải xuống file PDF
-  doc.save("KOOS_Score_Report.pdf");
+ doc.save({
+    filename: 'KOOS_Score_Report.pdf',
+    autoBom: true
+});
+
 }
 
 // Thêm sự kiện cho nút tải PDF
