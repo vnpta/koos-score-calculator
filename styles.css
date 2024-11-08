@@ -1,3 +1,41 @@
+/* Reset tất cả các kiểu của checkbox */
+.custom-checkbox {
+  appearance: none; /* Loại bỏ kiểu mặc định của checkbox */
+  -webkit-appearance: none; /* Tương thích với trình duyệt Webkit */
+  -moz-appearance: none; /* Tương thích với Firefox */
+  border: 2px solid #ddd; /* Viền mặc định */
+  width: 20px;
+  height: 20px;
+  border-radius: 4px; /* Bo góc */
+  background-color: #f0f0f0; /* Màu nền mặc định */
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox:checked {
+  background-color: #4CAF50; /* Màu nền khi checkbox được chọn */
+  border-color: #4CAF50; /* Màu viền khi được chọn */
+}
+
+.custom-checkbox:after {
+  content: ''; /* Tạo dấu tick */
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 2px; /* Bo góc cho dấu tick */
+  opacity: 0; /* Ban đầu không hiển thị dấu tick */
+  transition: opacity 0.2s ease;
+}
+
+.custom-checkbox:checked:after {
+  opacity: 1; /* Hiển thị dấu tick khi checkbox được chọn */
+}
+
+/* Các phần còn lại của CSS */
 body {
   margin: 0;
   padding: 0;
@@ -5,9 +43,8 @@ body {
   background-color: #f0f0f0;
 }
 
-/* Container chính với chiều rộng lớn hơn */
 .container {
-  max-width: 90%; /* Chiếm 90% chiều rộng màn hình */
+  max-width: 90%;
   margin: 30px auto;
   padding: 30px;
   background-color: white;
@@ -15,79 +52,72 @@ body {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Tiêu đề chính */
 h2 {
   text-align: center;
   margin-bottom: 40px;
   font-weight: bold;
-  font-size: 36px; /* Tăng kích thước cho tiêu đề chính */
+  font-size: 36px;
 }
 
-/* Phần hướng dẫn */
 .instructions {
-  text-align: justify; /* Căn đều hai bên cho văn bản */
-  padding: 0 20px; /* Thêm lề trái và phải nếu cần */
-  margin-bottom: 30px; /* Thêm khoảng cách dưới nếu cần thiết */
-  font-size: 26px; /* Giảm kích thước chữ cho phần hướng dẫn */
+  text-align: justify;
+  padding: 0 20px;
+  margin-bottom: 30px;
+  font-size: 26px;
 }
 
-/* Các đoạn văn bản có nội dung tương tự */
 .description {
-  font-size: 26px; /* Giảm kích thước chữ cho mô tả và hướng dẫn */
-  text-align: left; /* Căn lề bên trái cho mô tả */
-  margin-bottom: 20px; /* Thêm khoảng cách dưới nếu cần thiết */
+  font-size: 26px;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
-/* Mỗi câu hỏi */
 .question {
   margin-bottom: 25px;
 }
 
-/* Các tiêu đề câu hỏi */
 .question h3 {
   margin-bottom: 12px;
-  font-size: 30px; /* Tăng kích thước font cho tiêu đề câu hỏi */
-  text-align: justify; /* Căn đều tiêu đề câu hỏi */
+  font-size: 30px;
+  text-align: justify;
   font-weight: bold;
   color: #333;
   line-height: 1.5;
-  padding-left: 20px; /* Giữ lề trái cho tiêu đề câu hỏi */
-  padding-right: 20px; /* Thêm lề phải để căn lề đều hai bên */
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
-/* Các đáp án dàn đều và thoáng hơn */
 .options {
   display: flex;
-  justify-content: space-evenly; /* Dàn đều khoảng cách giữa các ô */
-  flex-wrap: wrap; /* Cho phép xuống dòng nếu cần */
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 0 20px;
 }
 
-/* Các ô đáp án */
 .option {
-  flex: 1; /* Cho phép ô đáp án mở rộng để chiếm không gian */
-  min-width: 200px; /* Chiều rộng tối thiểu cho mỗi ô */
-  height: 70px; /* Tăng chiều cao cho các ô đáp án */
+  flex: 1;
+  min-width: 200px;
+  height: 70px;
   background-color: #EAF0F6;
   color: #000;
   display: flex;
-  justify-content: center; /* Căn giữa nội dung */
-  align-items: center; /* Căn giữa nội dung theo chiều dọc */
+  justify-content: center;
+  align-items: center;
   border: 1px solid #EAF0F6;
-  font-size: 20px; /* Tăng kích thước chữ trong ô đáp án */
+  font-size: 20px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.1s;
-  white-space: normal; /* Cho phép nội dung xuống dòng */
+  white-space: normal;
   text-align: center;
   border-radius: 8px;
   padding: 5px;
 }
 
-/* Hover và chọn đáp án */
 .option:hover {
   background-color: #C0D7ED;
 }
+
 .option.selected {
   background-color: #0D1B2A;
   color: white;
@@ -95,7 +125,6 @@ h2 {
   border-color: #0D1B2A;
 }
 
-/* Nút tính toán */
 button {
   display: block;
   width: 100%;
@@ -106,42 +135,41 @@ button {
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 24px; /* Tăng kích thước chữ cho nút */
+  font-size: 24px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
+
 button:hover {
   background-color: #45A049;
 }
 
-/* Phần hiển thị kết quả */
 #result {
-  text-align: left; /* Căn lề bên trái */
-  font-size: 24px; /* Tăng kích thước chữ cho kết quả */
+  text-align: left;
+  font-size: 24px;
   margin-top: 25px;
-  padding-left: 20px; /* Thêm lề trái để căn lề cho phù hợp với nút tính điểm */
+  padding-left: 20px;
 }
 
-/* Media query cho màn hình nhỏ hơn */
 @media (max-width: 768px) {
   .options {
-    flex-direction: column; /* Xếp các ô đáp án theo chiều dọc */
-    align-items: center; /* Căn giữa các ô */
+    flex-direction: column;
+    align-items: center;
   }
 
   .option {
-    width: 100%; /* Đặt chiều rộng tối đa cho ô đáp án để chiếm toàn bộ chiều rộng */
-    margin-bottom: 10px; /* Thêm khoảng cách giữa các ô */
-    height: 60px; /* Giữ chiều cao cố định cho các ô đáp án */
-    font-size: 15px; /* Kích thước chữ nhỏ hơn cho màn hình nhỏ */
-    padding: 8px; /* Thêm padding cho ô đáp án */
+    width: 100%;
+    margin-bottom: 10px;
+    height: 60px;
+    font-size: 15px;
+    padding: 8px;
   }
 
   h2, .question h3, button {
-    font-size: 18px; /* Kích thước chữ nhỏ hơn cho phần khác */
+    font-size: 18px;
   }
 
   #result {
-    font-size: 18px; /* Kích thước chữ nhỏ hơn cho kết quả */
+    font-size: 18px;
   }
 }
