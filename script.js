@@ -171,3 +171,10 @@ document
 
 // Đảm bảo nút tải PDF ẩn mặc định
 document.getElementById("downloadPdfBtn").style.display = "none";
+try {
+  generatePDF(); // Gọi hàm tạo PDF
+} catch (error) {
+  console.error("Có lỗi xảy ra khi tạo PDF:", error);
+  alert("Có lỗi xảy ra khi tạo PDF. Hãy kiểm tra Console để biết thêm chi tiết.");
+}
+
