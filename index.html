@@ -571,7 +571,9 @@
 </div>
 
 <!-- Thêm các câu hỏi khác tương tự -->
-            <button type="button" id="calculateBtn">Tính Điểm KOOS</button>
+           <div style="text-align: center; margin-top: 20px;">
+    <button type="button" id="calculateBtn">Tính Điểm KOOS</button>
+</div>
             <h3 id="result"></h3>
         </form>
     </div>
@@ -579,16 +581,29 @@
 <!-- Form nhập tên và năm sinh -->
 <div id="userInfoForm" style="margin-bottom: 20px; text-align: center;">
     <!-- Tên -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto;">
-        <label for="nameInput" style="margin-right: 10px;">Tên:</label>
-        <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto; position: relative;">
+        <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required style="padding-left: 30px;" oninput="toggleLabel(this)">
+        <label for="nameInput" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888; transition: opacity 0.3s;">Tên</label>
     </div>
 
     <!-- Năm sinh -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto;">
-        <label for="birthYearInput" style="margin-right: 10px;">Năm sinh:</label>
-        <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto; position: relative;">
+        <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required style="padding-left: 30px;" oninput="toggleLabel(this)">
+        <label for="birthYearInput" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888; transition: opacity 0.3s;">Năm sinh</label>
     </div>
+</div>
+
+<script>
+    function toggleLabel(inputElement) {
+        const label = inputElement.previousElementSibling;
+        if (inputElement.value) {
+            label.style.opacity = 0;  // Ẩn label khi có giá trị nhập vào
+        } else {
+            label.style.opacity = 1;  // Hiện label khi ô input trống
+        }
+    }
+</script>
+
 
     <button id="downloadPdfBtn" style="display: inline-block; margin-top: 10px;">Lưu kết quả của bạn</button>
 </div>
