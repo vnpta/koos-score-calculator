@@ -52,86 +52,62 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let resultText = "Điểm KOOS của bạn:\n";
     for (const [key, value] of Object.entries(scores)) {
-      resultText += `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n`;
+      resultText += `${key.toUpperCase()}: ${
+        value !== null ? value : "Chưa trả lời đủ câu hỏi"
+      }\n`;
     }
 
     document.getElementById("result").innerText = resultText;
     document.getElementById("thankYouMessage").style.display = "block";
-    document.getElementById("downloadPdfBtn").style.display = "inline-block";
+    document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
+
+    increaseCounterAfterSubmit(); // Tăng lượt khảo sát sau khi hoàn thành
   }
 
   // Xử lý sự kiện tính toán
-  document.getElementById("calculateBtn").addEventListener("click", function () {
-    let firstUnansweredQuestion = null;
+  document
+    .getElementById("calculateBtn")
+    .addEventListener("click", function () {
+      let firstUnansweredQuestion = null;
 
-    document.querySelectorAll(".question").forEach((question) => {
-      const selectedOption = question.querySelector(".option.selected");
-      if (!selectedOption) {
-        question.classList.add("unanswered");
-        if (!firstUnansweredQuestion) {
-          firstUnansweredQuestion = question;
+      // Kiểm tra câu hỏi chưa trả lời và thêm viền đỏ
+      document.querySelectorAll(".question").forEach((question) => {
+        const selectedOption = question.querySelector(".option.selected");
+        if (!selectedOption) {
+          question.classList.add("unanswered");
+          if (!firstUnansweredQuestion) {
+            firstUnansweredQuestion = question;
+          }
+        } else {
+          question.classList.remove("unanswered");
         }
+      });
+
+      if (firstUnansweredQuestion) {
+        firstUnansweredQuestion.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+        alert("Bạn phải trả lời tất cả các câu hỏi!");
       } else {
-        question.classList.remove("unanswered");
+        displayKOOSResults();
       }
     });
 
-    if (firstUnansweredQuestion) {
-      firstUnansweredQuestion.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      alert("Bạn phải trả lời tất cả các câu hỏi!");
-    } else {
-      displayKOOSResults();
-
-      // ✅ Gọi API tăng lượt hoàn thành khảo sát
-      fetch("https://letscountapi.com/thu-vien-vat-ly-tri-lieu/hoan-thanh/increment", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
-        const completeCounterDiv = document.getElementById("completeCounter");
-        if (completeCounterDiv) {
-          completeCounterDiv.innerText = "Số lượt hoàn thành khảo sát: " + data.current_value;
-        }
-      })
-      .catch(error => {
-        console.error("Lỗi khi tăng bộ đếm:", error);
-      });
-    }
-  });
-
-  // Hiển thị số lượt hoàn thành khi trang được tải
-  fetch("https://letscountapi.com/thu-vien-vat-ly-tri-lieu/hoan-thanh", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    const completeCounterDiv = document.getElementById("completeCounter");
-    if (completeCounterDiv) {
-      completeCounterDiv.innerText = "Số lượt hoàn thành khảo sát: " + data.current_value;
-    }
-  });
-
-  // Tạo file PDF
+  // Hàm tạo file PDF chỉ với kết quả KOOS
   function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+
     const name = document.getElementById("nameInput").value;
     const birthYear = document.getElementById("birthYearInput").value;
-    const downloadDate = new Date().toLocaleString();
 
     if (!name || !birthYear) {
       alert("Vui lòng nhập tên và năm sinh!");
       return;
     }
+
+    const downloadDate = new Date().toLocaleString();
 
     doc.text("KET QUA TINH DIEM KOOS", 105, 20, { align: "center" });
     doc.text(`Ho ten: ${name}`, 10, 30);
@@ -151,22 +127,61 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text("KOOS SCORE:", 10, 70);
     let yPos = 80;
     for (const [key, value] of Object.entries(scores)) {
-      const scoreText = `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}`;
+      const scoreText = `${key.toUpperCase()}: ${
+        value !== null ? value : "Chưa trả lời đủ câu hỏi"
+      }`;
       doc.text(scoreText, 10, yPos);
       yPos += 10;
     }
 
     doc.setLineWidth(0.5);
     doc.line(10, yPos + 5, 200, yPos + 5);
+
     doc.setFontSize(40);
     doc.setTextColor(200, 200, 200);
     doc.text("KOOS", 15, 280);
+
     doc.save("KOOS_Score_Report.pdf");
   }
 
-  document.getElementById("downloadPdfBtn").addEventListener("click", function () {
-    generatePDF();
-  });
+  // Nút tải PDF
+  document
+    .getElementById("downloadPdfBtn")
+    .addEventListener("click", function () {
+      generatePDF();
+    });
 
   document.getElementById("downloadPdfBtn").style.display = "none";
+
+  // ==== TÍNH NĂNG BỘ ĐẾM SỐ LƯỢT ====
+
+  // Hàm cập nhật hiển thị số lượt khảo sát
+  function updateCounterDisplay() {
+    fetch("https://counterapi.dev/api/v1/counter/get?name=koosvn2025&app=koosvn")
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("counterDisplay").innerText =
+          `Số lượt hoàn thành khảo sát: ${data.Count}`;
+      })
+      .catch((error) => {
+        console.error("Lỗi khi tải số lượt:", error);
+        document.getElementById("counterDisplay").innerText =
+          "Không thể tải lượt khảo sát.";
+      });
+  }
+
+  // Gọi ngay khi vừa tải trang
+  updateCounterDisplay();
+
+  // Gọi sau khi người dùng hoàn thành khảo sát
+  function increaseCounterAfterSubmit() {
+    fetch("https://counterapi.dev/api/v1/counter/up?name=koosvn2025&app=koosvn")
+      .then((response) => response.json())
+      .then((data) => {
+        updateCounterDisplay();
+      })
+      .catch((error) =>
+        console.error("Lỗi khi tăng bộ đếm:", error)
+      );
+  }
 });
