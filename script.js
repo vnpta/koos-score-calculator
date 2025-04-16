@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Bạn phải trả lời tất cả các câu hỏi!");
     } else {
       displayKOOSResults();
+      onSurveyCompleted(); 
     }
   });
 
@@ -161,8 +162,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
 });
+// --- BỔ SUNG SAU CÙNG FILE XXX.js ---
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -175,33 +178,45 @@ const firebaseConfig = {
   measurementId: "G-6K09T94P9X"
 };
 
-// Khởi tạo Firebase và Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Hàm tăng lượt hoàn thành khảo sát
-async function incrementCompletionCount() {
-  const docRef = doc(db, "survey_data", "complete");  // Collection 'survey_data' và document 'complete'
+// Hàm lấy số lượt hoàn thành
+async function loadCompletionCount() {
+  try {
+    const docRef = doc(db, "survey_data", "complete");
+    const docSnap = await getDoc(docRef);
 
-  // Lấy dữ liệu hiện tại từ Firestore
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    let currentCount = docSnap.data().count || 0;  // Nếu đã có dữ liệu, lấy số hiện tại, nếu không thì mặc định là 0
-    await setDoc(docRef, { count: currentCount + 1 });  // Cập nhật số lượt hoàn thành
-
-    console.log("Lượt hoàn thành đã được cập nhật.");
-    document.getElementById("completionCount").innerText = "Số lượt hoàn thành: " + (currentCount + 1);
-  } else {
-    // Nếu document chưa tồn tại, tạo mới với giá trị 1
-    await setDoc(docRef, { count: 1 });
-
-    console.log("Lượt hoàn thành đã được tạo mới.");
-    document.getElementById("completionCount").innerText = "Số lượt hoàn thành: 1";
+    if (docSnap.exists()) {
+      const count = docSnap.data().count || 0;
+      document.getElementById("completionCount").innerText = "Số lượt hoàn thành: " + count;
+    } else {
+      document.getElementById("completionCount").innerText = "Số lượt hoàn thành: 0";
+    }
+  } catch (error) {
+    console.error("Lỗi khi tải số lượt hoàn thành:", error);
   }
 }
 
-// Gọi hàm khi người dùng hoàn thành khảo sát
-document.getElementById("calculateBtn").addEventListener("click", function () {
-  incrementCompletionCount();
+// Hàm tăng số lượt hoàn thành
+async function incrementCompletionCount() {
+  try {
+    const docRef = doc(db, "survey_data", "complete");
+    const docSnap = await getDoc(docRef);
+    const currentCount = docSnap.exists() ? docSnap.data().count || 0 : 0;
+    await setDoc(docRef, { count: currentCount + 1 });
+    loadCompletionCount(); // cập nhật lại trên giao diện
+  } catch (error) {
+    console.error("Lỗi khi cập nhật lượt hoàn thành:", error);
+  }
+}
+
+// Gọi khi trang tải xong
+document.addEventListener("DOMContentLoaded", function () {
+  loadCompletionCount();
 });
+
+// Gọi khi hoàn thành khảo sát (VD: sau displayKOOSResults())
+function onSurveyCompleted() {
+  incrementCompletionCount();
+}
