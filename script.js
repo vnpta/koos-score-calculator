@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let completionCount = 0; // Biến đếm số lượt hoàn thành khảo sát
-
   // Thêm sự kiện cho từng ô lựa chọn
   document.querySelectorAll(".option").forEach((option) => {
     option.addEventListener("click", function () {
@@ -28,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     questions.forEach((qNum) => {
       const question = document.querySelector(
-        `.question[data-question="${qNum}"]`
+        .question[data-question="${qNum}"]
       );
       const selectedOption = question?.querySelector(".option.selected");
       if (selectedOption) {
@@ -54,16 +52,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let resultText = "Điểm KOOS của bạn:\n";
     for (const [key, value] of Object.entries(scores)) {
-      resultText += `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n`;
+      resultText += ${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n;
     }
 
     document.getElementById("result").innerText = resultText;
     document.getElementById("thankYouMessage").style.display = "block";
     document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
-
-    // Cập nhật số lượt hoàn thành khảo sát
-    completionCount++;
-    document.getElementById("completionCount").innerText = `Số lượt hoàn thành khảo sát: ${completionCount}`;
   }
 
   // Xử lý sự kiện tính toán
@@ -116,9 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text("KET QUA TINH DIEM KOOS", 105, 20, { align: "center" });
 
     // Thêm thông tin người dùng
-    doc.text(`Ho ten: ${name}`, 10, 30);
-    doc.text(`Nam sinh: ${birthYear}`, 10, 40);
-    doc.text(`Thoi gian: ${downloadDate}`, 10, 50);
+    doc.text(Ho ten: ${name}, 10, 30);
+    doc.text(Nam sinh: ${birthYear}, 10, 40);
+    doc.text(Thoi gian: ${downloadDate}, 10, 50);
 
     // Thêm một dòng phân cách
     doc.setLineWidth(0.5);
@@ -139,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Thêm điểm số KOOS vào file PDF
     let yPos = 80; // Tọa độ y bắt đầu cho các điểm số
     for (const [key, value] of Object.entries(scores)) {
-      const scoreText = `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}`;
+      const scoreText = ${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"};
       doc.text(scoreText, 10, yPos);
       yPos += 10; // Tăng vị trí y cho mỗi điểm
     }
@@ -166,4 +160,54 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
+});
+// --- Firebase Counter: Đếm lượt hoàn thành khảo sát ---
+
+// Khởi tạo Firebase
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
+  authDomain: "koosvn-79214.firebaseapp.com",
+  projectId: "koosvn-79214",
+  storageBucket: "koosvn-79214.appspot.com",
+  messagingSenderId: "616747698087",
+  appId: "1:616747698087:web:8740c4372a11ea82631882",
+  measurementId: "G-6K09T94P9X"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Gọi hàm này mỗi khi người dùng hoàn thành khảo sát
+async function incrementSurveyCounter() {
+  const counterRef = doc(db, "koos_data", "counter");
+
+  try {
+    const docSnap = await getDoc(counterRef);
+
+    if (docSnap.exists()) {
+      const currentCount = docSnap.data().count || 0;
+      await updateDoc(counterRef, {
+        count: currentCount + 1,
+      });
+    } else {
+      await setDoc(counterRef, { count: 1 });
+    }
+
+    console.log("Lượt hoàn thành khảo sát đã được cập nhật.");
+  } catch (error) {
+    console.error("Lỗi khi cập nhật lượt hoàn thành:", error);
+  }
+}
+
+// Gọi hàm này khi người dùng hoàn thành khảo sát
+document.getElementById("calculateBtn").addEventListener("click", function () {
+  const unanswered = document.querySelectorAll(".question .option.selected").length;
+  const totalQuestions = document.querySelectorAll(".question").length;
+
+  if (unanswered === totalQuestions) {
+    incrementSurveyCounter(); // Gọi khi đã trả lời đầy đủ
+  }
 });
