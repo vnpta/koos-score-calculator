@@ -160,42 +160,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
-
-  // ---------- Đếm lượt khảo sát ----------
-  
-  function loadSurveyCount() {
-    const counterDisplay = document.getElementById("counterDisplay");
-    if (!counterDisplay) return;
-
-    fetch("https://counterapi.dev/api/v1/counter/get?name=koosvn2025&app=koosvn")
-      .then((response) => response.json())
-      .then((data) => {
-        counterDisplay.innerText = `Đã có ${data.Count} lượt khảo sát.`;
-      })
-      .catch(() => {
-        counterDisplay.innerText = "Không thể tải lượt khảo sát.";
-      });
-  }
-
-  function countCompleteSurvey() {
-    fetch("https://counterapi.dev/api/v1/counter/up", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: "koosvn2025",
-        app: "koosvn",
-      }),
-    })
-      .then(() => {
-        loadSurveyCount(); // Cập nhật lại số lượt khảo sát sau khi tăng
-      })
-      .catch((err) => {
-        console.error("Không thể cập nhật lượt khảo sát:", err);
-      });
-  }
-
-  // Gọi hàm tải số lượt khảo sát khi trang được tải
-  loadSurveyCount();
 });
