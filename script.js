@@ -162,7 +162,6 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("downloadPdfBtn").style.display = "none";
 });
 // --- Firebase Counter: Đếm lượt hoàn thành khảo sát ---
-
 // Khởi tạo Firebase
 import { initializeApp } from "firebase/app";
 import { getFirestore, doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
@@ -180,7 +179,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Gọi hàm này mỗi khi người dùng hoàn thành khảo sát
+// Hàm đếm lượt hoàn thành khảo sát
 async function incrementSurveyCounter() {
   const counterRef = doc(db, "koos_data", "counter");
 
@@ -202,12 +201,41 @@ async function incrementSurveyCounter() {
   }
 }
 
-// Gọi hàm này khi người dùng hoàn thành khảo sát
+// Hiển thị số lượt hoàn thành khảo sát
+async function displaySurveyCount() {
+  const counterRef = doc(db, "koos_data", "counter");
+
+  try {
+    const docSnap = await getDoc(counterRef);
+
+    if (docSnap.exists()) {
+      const count = docSnap.data().count || 0;
+      document.getElementById("surveyCountDisplay").innerText = `Lượt hoàn thành: ${count}`;
+    } else {
+      document.getElementById("surveyCountDisplay").innerText = "Lượt hoàn thành: 0";
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy số lượt hoàn thành:", error);
+  }
+}
+
+// Xử lý sự kiện tính toán điểm và gọi đếm lượt khi hoàn thành khảo sát
 document.getElementById("calculateBtn").addEventListener("click", function () {
   const unanswered = document.querySelectorAll(".question .option.selected").length;
   const totalQuestions = document.querySelectorAll(".question").length;
 
   if (unanswered === totalQuestions) {
+    incrementSurveyCounter(); // Gọi khi đã trả lời đầy đủ
+  } else {
+    alert("Bạn phải trả lời tất cả các câu hỏi!");
+  }
+});
+
+// Gọi hàm để hiển thị số lượt khi trang được tải
+document.addEventListener("DOMContentLoaded", function () {
+  displaySurveyCount(); // Gọi khi trang được tải để hiển thị số lượt hoàn thành hiện tại
+});
+
     incrementSurveyCounter(); // Gọi khi đã trả lời đầy đủ
   }
 });
