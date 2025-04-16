@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  let completionCount = 0; // Biến đếm số lượt hoàn thành khảo sát
+
   // Thêm sự kiện cho từng ô lựa chọn
   document.querySelectorAll(".option").forEach((option) => {
     option.addEventListener("click", function () {
@@ -58,6 +60,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("result").innerText = resultText;
     document.getElementById("thankYouMessage").style.display = "block";
     document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
+
+    // Cập nhật số lượt hoàn thành khảo sát
+    completionCount++;
+    document.getElementById("completionCount").innerText = `Số lượt hoàn thành khảo sát: ${completionCount}`;
   }
 
   // Xử lý sự kiện tính toán
