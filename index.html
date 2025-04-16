@@ -581,28 +581,17 @@
 <!-- Form nhập tên và năm sinh -->
 <div id="userInfoForm" style="margin-bottom: 20px; text-align: center;">
     <!-- Tên -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto; position: relative;">
-        <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required style="padding-left: 30px;" oninput="toggleLabel(this)">
-        <label for="nameInput" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888; transition: opacity 0.3s;">Tên</label>
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+        <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required>
     </div>
 
     <!-- Năm sinh -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto; position: relative;">
-        <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required style="padding-left: 30px;" oninput="toggleLabel(this)">
-        <label for="birthYearInput" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #888; transition: opacity 0.3s;">Năm sinh</label>
+    <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+        <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required>
     </div>
-</div>
 
-<script>
-    function toggleLabel(inputElement) {
-        const label = inputElement.previousElementSibling;
-        if (inputElement.value) {
-            label.style.opacity = 0;  // Ẩn label khi có giá trị nhập vào
-        } else {
-            label.style.opacity = 1;  // Hiện label khi ô input trống
-        }
-    }
-</script>
+    <button id="downloadPdfBtn" style="display: inline-block; margin-top: 10px;">Lưu kết quả của bạn</button>
+</div>
 
 
     <button id="downloadPdfBtn" style="display: inline-block; margin-top: 10px;">Lưu kết quả của bạn</button>
