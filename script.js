@@ -161,3 +161,37 @@ document.addEventListener("DOMContentLoaded", function () {
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
 });
+// Firebase integration to count survey completions
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "firebase/app";
+  import { getDatabase, ref, set, get, child, update, runTransaction } from "firebase/database";
+
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
+    authDomain: "koosvn-79214.firebaseapp.com",
+    projectId: "koosvn-79214",
+    storageBucket: "koosvn-79214.firebasestorage.app",
+    messagingSenderId: "616747698087",
+    appId: "1:616747698087:web:8740c4372a11ea82631882",
+    measurementId: "G-6K09T94P9X"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Cập nhật số lượt hoàn thành vào Firebase
+  const userRef = ref(database, 'survey/completionCount');
+
+  // Tăng số lượt hoàn thành lên 1
+  runTransaction(userRef, (currentValue) => {
+    return (currentValue || 0) + 1;
+  });
+
+  // Hiển thị số lượt hoàn thành
+  get(userRef).then((snapshot) => {
+    const completionCount = snapshot.val();
+    document.getElementById("completionCount").innerText = `Số lượt hoàn thành: ${completionCount}`;
+  });
+});
