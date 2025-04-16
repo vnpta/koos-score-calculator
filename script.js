@@ -57,14 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("result").innerText = resultText;
     document.getElementById("thankYouMessage").style.display = "block";
-    document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
+    document.getElementById("downloadPdfBtn").style.display = "inline-block";
   }
 
   // Xử lý sự kiện tính toán
   document.getElementById("calculateBtn").addEventListener("click", function () {
     let firstUnansweredQuestion = null;
 
-    // Kiểm tra câu hỏi chưa trả lời và thêm viền đỏ
     document.querySelectorAll(".question").forEach((question) => {
       const selectedOption = question.querySelector(".option.selected");
       if (!selectedOption) {
@@ -85,40 +84,62 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Bạn phải trả lời tất cả các câu hỏi!");
     } else {
       displayKOOSResults();
+
+      // ✅ Gọi API tăng lượt hoàn thành khảo sát
+      fetch("https://letscountapi.com/thu-vien-vat-ly-tri-lieu/hoan-thanh/increment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const completeCounterDiv = document.getElementById("completeCounter");
+        if (completeCounterDiv) {
+          completeCounterDiv.innerText = "Số lượt hoàn thành khảo sát: " + data.current_value;
+        }
+      })
+      .catch(error => {
+        console.error("Lỗi khi tăng bộ đếm:", error);
+      });
     }
   });
 
-  // Hàm tạo file PDF chỉ với kết quả KOOS
+  // Hiển thị số lượt hoàn thành khi trang được tải
+  fetch("https://letscountapi.com/thu-vien-vat-ly-tri-lieu/hoan-thanh", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    const completeCounterDiv = document.getElementById("completeCounter");
+    if (completeCounterDiv) {
+      completeCounterDiv.innerText = "Số lượt hoàn thành khảo sát: " + data.current_value;
+    }
+  });
+
+  // Tạo file PDF
   function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
-
-    // Lấy thông tin từ form nhập tên và năm sinh
     const name = document.getElementById("nameInput").value;
     const birthYear = document.getElementById("birthYearInput").value;
+    const downloadDate = new Date().toLocaleString();
 
-    // Kiểm tra nếu người dùng đã nhập tên và năm sinh
     if (!name || !birthYear) {
       alert("Vui lòng nhập tên và năm sinh!");
       return;
     }
 
-    // Lấy ngày giờ tải xuống
-    const downloadDate = new Date().toLocaleString(); // Ngày và giờ hiện tại
-
-    // Thêm tiêu đề (không cài đặt font)
     doc.text("KET QUA TINH DIEM KOOS", 105, 20, { align: "center" });
-
-    // Thêm thông tin người dùng
     doc.text(`Ho ten: ${name}`, 10, 30);
     doc.text(`Nam sinh: ${birthYear}`, 10, 40);
     doc.text(`Thoi gian: ${downloadDate}`, 10, 50);
-
-    // Thêm một dòng phân cách
     doc.setLineWidth(0.5);
     doc.line(10, 55, 200, 55);
 
-    // Tính toán điểm KOOS
     const scores = {
       symptoms: calculateKOOSScore(questionGroups.symptoms),
       pain: calculateKOOSScore(questionGroups.pain),
@@ -127,37 +148,25 @@ document.addEventListener("DOMContentLoaded", function () {
       qol: calculateKOOSScore(questionGroups.qol),
     };
 
-    // Thêm phần tiêu đề cho kết quả
     doc.text("KOOS SCORE:", 10, 70);
-
-    // Thêm điểm số KOOS vào file PDF
-    let yPos = 80; // Tọa độ y bắt đầu cho các điểm số
+    let yPos = 80;
     for (const [key, value] of Object.entries(scores)) {
       const scoreText = `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}`;
       doc.text(scoreText, 10, yPos);
-      yPos += 10; // Tăng vị trí y cho mỗi điểm
+      yPos += 10;
     }
 
-    // Thêm một dòng phân cách
     doc.setLineWidth(0.5);
     doc.line(10, yPos + 5, 200, yPos + 5);
-
-    // Thêm watermark "KOOS" ở góc dưới bên trái
     doc.setFontSize(40);
-    doc.setTextColor(200, 200, 200); // Màu xám nhạt cho watermark
-    doc.text("KOOS", 15, 280); // Vị trí watermark ở dưới bên trái
-
-    // Tải xuống file PDF
+    doc.setTextColor(200, 200, 200);
+    doc.text("KOOS", 15, 280);
     doc.save("KOOS_Score_Report.pdf");
   }
 
-  // Thêm sự kiện cho nút tải PDF
-  document
-    .getElementById("downloadPdfBtn")
-    .addEventListener("click", function () {
-      generatePDF(); // Gọi hàm tạo PDF
-    });
+  document.getElementById("downloadPdfBtn").addEventListener("click", function () {
+    generatePDF();
+  });
 
-  // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
 });
