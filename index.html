@@ -590,6 +590,44 @@
     <footer style="text-align: center; margin-top: 20px; padding: 10px; background-color: #f0f0f0;">
     <p>© KOOS TIẾNG VIỆT</p>
 </footer>
-<div id="completionCount">Số lượt hoàn thành khảo sát: 0</div>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getFirestore, doc, updateDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  // Firebase config của bạn
+  const firebaseConfig = {
+    apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
+    authDomain: "koosvn-79214.firebaseapp.com",
+    projectId: "koosvn-79214",
+    storageBucket: "koosvn-79214.appspot.com",
+    messagingSenderId: "616747698087",
+    appId: "1:616747698087:web:8740c4372a11ea82631882",
+    measurementId: "G-6K09T94P9X"
+  };
+
+  // Khởi tạo Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Hàm tăng lượt hoàn thành khảo sát
+  async function increaseSurveyCount() {
+    const counterRef = doc(db, "statistics", "surveyCount");
+
+    const docSnap = await getDoc(counterRef);
+
+    if (docSnap.exists()) {
+      await updateDoc(counterRef, {
+        count: docSnap.data().count + 1,
+      });
+    } else {
+      await setDoc(counterRef, { count: 1 });
+    }
+  }
+
+  // Gắn vào global để JS chính gọi được
+  window.increaseSurveyCount = increaseSurveyCount;
+</script>
+
 </body>
 </html>
