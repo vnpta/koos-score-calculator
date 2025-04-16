@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     questions.forEach((qNum) => {
       const question = document.querySelector(
-        `.question[data-question="${qNum}"]`
+        .question[data-question="${qNum}"]
       );
       const selectedOption = question?.querySelector(".option.selected");
       if (selectedOption) {
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let resultText = "Điểm KOOS của bạn:\n";
     for (const [key, value] of Object.entries(scores)) {
-      resultText += `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n`;
+      resultText += ${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n;
     }
 
     document.getElementById("result").innerText = resultText;
@@ -110,9 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text("KET QUA TINH DIEM KOOS", 105, 20, { align: "center" });
 
     // Thêm thông tin người dùng
-    doc.text(`Ho ten: ${name}`, 10, 30);
-    doc.text(`Nam sinh: ${birthYear}`, 10, 40);
-    doc.text(`Thoi gian: ${downloadDate}`, 10, 50);
+    doc.text(Ho ten: ${name}, 10, 30);
+    doc.text(Nam sinh: ${birthYear}, 10, 40);
+    doc.text(Thoi gian: ${downloadDate}, 10, 50);
 
     // Thêm một dòng phân cách
     doc.setLineWidth(0.5);
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Thêm điểm số KOOS vào file PDF
     let yPos = 80; // Tọa độ y bắt đầu cho các điểm số
     for (const [key, value] of Object.entries(scores)) {
-      const scoreText = `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}`;
+      const scoreText = ${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"};
       doc.text(scoreText, 10, yPos);
       yPos += 10; // Tăng vị trí y cho mỗi điểm
     }
@@ -160,38 +160,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
-
-  // Firebase integration to count survey completions
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "firebase/app";
-  import { getDatabase, ref, set, get, child, update, runTransaction } from "firebase/database";
-
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
-    authDomain: "koosvn-79214.firebaseapp.com",
-    projectId: "koosvn-79214",
-    storageBucket: "koosvn-79214.firebasestorage.app",
-    messagingSenderId: "616747698087",
-    appId: "1:616747698087:web:8740c4372a11ea82631882",
-    measurementId: "G-6K09T94P9X"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  // Cập nhật số lượt hoàn thành vào Firebase
-  const userRef = ref(database, 'survey/completionCount');
-
-  // Tăng số lượt hoàn thành lên 1
-  runTransaction(userRef, (currentValue) => {
-    return (currentValue || 0) + 1;
-  });
-
-  // Hiển thị số lượt hoàn thành
-  get(userRef).then((snapshot) => {
-    const completionCount = snapshot.val();
-    document.getElementById("completionCount").innerText = `Số lượt hoàn thành: ${completionCount}`;
-  });
 });
