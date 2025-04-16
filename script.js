@@ -1,16 +1,35 @@
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-  // Thêm sự kiện cho từng ô lựa chọn
+  // ==== 1. Hiển thị số lượt khảo sát ====
+  function updateCounterDisplay() {
+    fetch("https://counterapi.dev/api/v1/counter/get?name=koosvn2025&app=koosvn")
+      .then((response) => {
+        if (!response.ok) throw new Error("Không phản hồi hợp lệ");
+        return response.json();
+      })
+      .then((data) => {
+        document.getElementById("counterDisplay").innerText =
+          `Số lượt hoàn thành khảo sát: ${data.Count}`;
+      })
+      .catch((error) => {
+        console.error("Lỗi khi tải số lượt:", error);
+        document.getElementById("counterDisplay").innerText =
+          "Không thể tải lượt khảo sát.";
+      });
+  }
+
+  // ==== 2. Sự kiện chọn đáp án ====
   document.querySelectorAll(".option").forEach((option) => {
     option.addEventListener("click", function () {
       const parent = this.parentElement;
-      parent
-        .querySelectorAll(".option")
-        .forEach((opt) => opt.classList.remove("selected"));
+      parent.querySelectorAll(".option").forEach((opt) =>
+        opt.classList.remove("selected")
+      );
       this.classList.add("selected");
     });
   });
 
-  // Nhóm câu hỏi theo các mục
+  // ==== 3. Cấu trúc nhóm câu hỏi ====
   const questionGroups = {
     symptoms: [1, 2, 3, 4, 5, 6, 7],
     pain: [8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -19,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     qol: [39, 40, 41, 42],
   };
 
-  // Hàm tính điểm KOOS
+  // ==== 4. Tính điểm KOOS ====
   function calculateKOOSScore(questions) {
     let total = 0;
     let answeredCount = 0;
@@ -40,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return Math.round(100 - (averageScore / 4) * 100);
   }
 
-  // Hàm hiển thị kết quả KOOS
+  // ==== 5. Hiển thị kết quả KOOS ====
   function displayKOOSResults() {
     const scores = {
       symptoms: calculateKOOSScore(questionGroups.symptoms),
@@ -52,49 +71,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let resultText = "Điểm KOOS của bạn:\n";
     for (const [key, value] of Object.entries(scores)) {
-      resultText += `${key.toUpperCase()}: ${
-        value !== null ? value : "Chưa trả lời đủ câu hỏi"
-      }\n`;
+      resultText += `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n`;
     }
 
     document.getElementById("result").innerText = resultText;
     document.getElementById("thankYouMessage").style.display = "block";
-    document.getElementById("downloadPdfBtn").style.display = "inline-block"; // Hiển thị nút tải PDF
+    document.getElementById("downloadPdfBtn").style.display = "inline-block";
 
-    increaseCounterAfterSubmit(); // Tăng lượt khảo sát sau khi hoàn thành
+    // Gửi lên CounterAPI
+    fetch("https://counterapi.dev/api/v1/counter/up?name=koosvn2025&app=koosvn")
+      .then((res) => res.json())
+      .then(() => updateCounterDisplay())
+      .catch((err) => console.error("Không thể cập nhật lượt:", err));
   }
 
-  // Xử lý sự kiện tính toán
-  document
-    .getElementById("calculateBtn")
-    .addEventListener("click", function () {
-      let firstUnansweredQuestion = null;
+  // ==== 6. Nút tính toán ====
+  document.getElementById("calculateBtn").addEventListener("click", function () {
+    let firstUnansweredQuestion = null;
 
-      // Kiểm tra câu hỏi chưa trả lời và thêm viền đỏ
-      document.querySelectorAll(".question").forEach((question) => {
-        const selectedOption = question.querySelector(".option.selected");
-        if (!selectedOption) {
-          question.classList.add("unanswered");
-          if (!firstUnansweredQuestion) {
-            firstUnansweredQuestion = question;
-          }
-        } else {
-          question.classList.remove("unanswered");
+    document.querySelectorAll(".question").forEach((question) => {
+      const selectedOption = question.querySelector(".option.selected");
+      if (!selectedOption) {
+        question.classList.add("unanswered");
+        if (!firstUnansweredQuestion) {
+          firstUnansweredQuestion = question;
         }
-      });
-
-      if (firstUnansweredQuestion) {
-        firstUnansweredQuestion.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-        alert("Bạn phải trả lời tất cả các câu hỏi!");
       } else {
-        displayKOOSResults();
+        question.classList.remove("unanswered");
       }
     });
 
-  // Hàm tạo file PDF chỉ với kết quả KOOS
+    if (firstUnansweredQuestion) {
+      firstUnansweredQuestion.scrollIntoView({ behavior: "smooth", block: "center" });
+      alert("Bạn phải trả lời tất cả các câu hỏi!");
+    } else {
+      displayKOOSResults();
+    }
+  });
+
+  // ==== 7. Tạo PDF ====
   function generatePDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -113,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text(`Ho ten: ${name}`, 10, 30);
     doc.text(`Nam sinh: ${birthYear}`, 10, 40);
     doc.text(`Thoi gian: ${downloadDate}`, 10, 50);
+
     doc.setLineWidth(0.5);
     doc.line(10, 55, 200, 55);
 
@@ -125,11 +141,10 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     doc.text("KOOS SCORE:", 10, 70);
+
     let yPos = 80;
     for (const [key, value] of Object.entries(scores)) {
-      const scoreText = `${key.toUpperCase()}: ${
-        value !== null ? value : "Chưa trả lời đủ câu hỏi"
-      }`;
+      const scoreText = `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}`;
       doc.text(scoreText, 10, yPos);
       yPos += 10;
     }
@@ -144,44 +159,13 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.save("KOOS_Score_Report.pdf");
   }
 
-  // Nút tải PDF
-  document
-    .getElementById("downloadPdfBtn")
-    .addEventListener("click", function () {
-      generatePDF();
-    });
+  document.getElementById("downloadPdfBtn").addEventListener("click", function () {
+    generatePDF();
+  });
 
   document.getElementById("downloadPdfBtn").style.display = "none";
 
-  // ==== TÍNH NĂNG BỘ ĐẾM SỐ LƯỢT ====
-
-  // Hàm cập nhật hiển thị số lượt khảo sát
-  function updateCounterDisplay() {
-    fetch("https://counterapi.dev/api/v1/counter/get?name=koosvn2025&app=koosvn")
-      .then((response) => response.json())
-      .then((data) => {
-        document.getElementById("counterDisplay").innerText =
-          `Số lượt hoàn thành khảo sát: ${data.Count}`;
-      })
-      .catch((error) => {
-        console.error("Lỗi khi tải số lượt:", error);
-        document.getElementById("counterDisplay").innerText =
-          "Không thể tải lượt khảo sát.";
-      });
-  }
-
-  // Gọi ngay khi vừa tải trang
+  // Gọi lần đầu để hiển thị số lượt
   updateCounterDisplay();
-
-  // Gọi sau khi người dùng hoàn thành khảo sát
-  function increaseCounterAfterSubmit() {
-    fetch("https://counterapi.dev/api/v1/counter/up?name=koosvn2025&app=koosvn")
-      .then((response) => response.json())
-      .then((data) => {
-        updateCounterDisplay();
-      })
-      .catch((error) =>
-        console.error("Lỗi khi tăng bộ đếm:", error)
-      );
-  }
 });
+</script>
