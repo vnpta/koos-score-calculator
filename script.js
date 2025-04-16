@@ -1,4 +1,43 @@
+// --- Firebase Counter: Đếm lượt hoàn thành khảo sát ---
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+// Khởi tạo Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
+  authDomain: "koosvn-79214.firebaseapp.com",
+  projectId: "koosvn-79214",
+  storageBucket: "koosvn-79214.appspot.com",
+  messagingSenderId: "616747698087",
+  appId: "1:616747698087:web:8740c4372a11ea82631882",
+  measurementId: "G-6K09T94P9X"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Hàm hiển thị số lượt hoàn thành khảo sát
+async function displaySurveyCount() {
+  const counterRef = doc(db, "koos_data", "counter");
+
+  try {
+    const docSnap = await getDoc(counterRef);
+
+    if (docSnap.exists()) {
+      const count = docSnap.data().count || 0;
+      document.getElementById("surveyCountDisplay").innerText = `Lượt hoàn thành: ${count}`;
+    } else {
+      document.getElementById("surveyCountDisplay").innerText = "Lượt hoàn thành: 0";
+    }
+  } catch (error) {
+    console.error("Lỗi khi lấy số lượt hoàn thành:", error);
+  }
+}
+
+// Gọi hàm để hiển thị số lượt khi trang được tải
 document.addEventListener("DOMContentLoaded", function () {
+  displaySurveyCount(); // Hiển thị số lượt hoàn thành khi trang tải
+
   // Thêm sự kiện cho từng ô lựa chọn
   document.querySelectorAll(".option").forEach((option) => {
     option.addEventListener("click", function () {
@@ -26,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     questions.forEach((qNum) => {
       const question = document.querySelector(
-        .question[data-question="${qNum}"]
+        `.question[data-question="${qNum}"]`
       );
       const selectedOption = question?.querySelector(".option.selected");
       if (selectedOption) {
@@ -52,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let resultText = "Điểm KOOS của bạn:\n";
     for (const [key, value] of Object.entries(scores)) {
-      resultText += ${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n;
+      resultText += `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}\n`;
     }
 
     document.getElementById("result").innerText = resultText;
@@ -110,9 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
     doc.text("KET QUA TINH DIEM KOOS", 105, 20, { align: "center" });
 
     // Thêm thông tin người dùng
-    doc.text(Ho ten: ${name}, 10, 30);
-    doc.text(Nam sinh: ${birthYear}, 10, 40);
-    doc.text(Thoi gian: ${downloadDate}, 10, 50);
+    doc.text(`Ho ten: ${name}`, 10, 30);
+    doc.text(`Nam sinh: ${birthYear}`, 10, 40);
+    doc.text(`Thoi gian: ${downloadDate}`, 10, 50);
 
     // Thêm một dòng phân cách
     doc.setLineWidth(0.5);
@@ -133,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Thêm điểm số KOOS vào file PDF
     let yPos = 80; // Tọa độ y bắt đầu cho các điểm số
     for (const [key, value] of Object.entries(scores)) {
-      const scoreText = ${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"};
+      const scoreText = `${key.toUpperCase()}: ${value !== null ? value : "Chưa trả lời đủ câu hỏi"}`;
       doc.text(scoreText, 10, yPos);
       yPos += 10; // Tăng vị trí y cho mỗi điểm
     }
@@ -160,82 +199,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
-});
-// --- Firebase Counter: Đếm lượt hoàn thành khảo sát ---
-// Khởi tạo Firebase
-import { initializeApp } from "firebase/app";
-import { getFirestore, doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
-  authDomain: "koosvn-79214.firebaseapp.com",
-  projectId: "koosvn-79214",
-  storageBucket: "koosvn-79214.appspot.com",
-  messagingSenderId: "616747698087",
-  appId: "1:616747698087:web:8740c4372a11ea82631882",
-  measurementId: "G-6K09T94P9X"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// Hàm đếm lượt hoàn thành khảo sát
-async function incrementSurveyCounter() {
-  const counterRef = doc(db, "koos_data", "counter");
-
-  try {
-    const docSnap = await getDoc(counterRef);
-
-    if (docSnap.exists()) {
-      const currentCount = docSnap.data().count || 0;
-      await updateDoc(counterRef, {
-        count: currentCount + 1,
-      });
-    } else {
-      await setDoc(counterRef, { count: 1 });
-    }
-
-    console.log("Lượt hoàn thành khảo sát đã được cập nhật.");
-  } catch (error) {
-    console.error("Lỗi khi cập nhật lượt hoàn thành:", error);
-  }
-}
-
-// Hiển thị số lượt hoàn thành khảo sát
-async function displaySurveyCount() {
-  const counterRef = doc(db, "koos_data", "counter");
-
-  try {
-    const docSnap = await getDoc(counterRef);
-
-    if (docSnap.exists()) {
-      const count = docSnap.data().count || 0;
-      document.getElementById("surveyCountDisplay").innerText = `Lượt hoàn thành: ${count}`;
-    } else {
-      document.getElementById("surveyCountDisplay").innerText = "Lượt hoàn thành: 0";
-    }
-  } catch (error) {
-    console.error("Lỗi khi lấy số lượt hoàn thành:", error);
-  }
-}
-
-// Xử lý sự kiện tính toán điểm và gọi đếm lượt khi hoàn thành khảo sát
-document.getElementById("calculateBtn").addEventListener("click", function () {
-  const unanswered = document.querySelectorAll(".question .option.selected").length;
-  const totalQuestions = document.querySelectorAll(".question").length;
-
-  if (unanswered === totalQuestions) {
-    incrementSurveyCounter(); // Gọi khi đã trả lời đầy đủ
-  } else {
-    alert("Bạn phải trả lời tất cả các câu hỏi!");
-  }
-});
-
-// Gọi hàm để hiển thị số lượt khi trang được tải
-document.addEventListener("DOMContentLoaded", function () {
-  displaySurveyCount(); // Gọi khi trang được tải để hiển thị số lượt hoàn thành hiện tại
-});
-
-    incrementSurveyCounter(); // Gọi khi đã trả lời đầy đủ
-  }
 });
