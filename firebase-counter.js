@@ -13,7 +13,6 @@ export async function hienThiSoLuong() {
     // Căn phải phần tử
     completionElement.style.textAlign = "right";  // Căn phải
     completionElement.style.fontSize = "20px";    // Chỉnh cỡ chữ
-    completionElement.style.fontWeight = "bold";  // Chỉnh độ đậm
   } catch (error) {
     console.error("Lỗi khi đọc số lượng:", error);
   }
