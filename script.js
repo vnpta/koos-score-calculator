@@ -161,37 +161,47 @@ document.addEventListener("DOMContentLoaded", function () {
   // Đảm bảo nút tải PDF ẩn mặc định
   document.getElementById("downloadPdfBtn").style.display = "none";
 });
-// Firebase integration to count survey completions
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "firebase/app";
-  import { getDatabase, ref, set, get, child, update, runTransaction } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-  // Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
-    authDomain: "koosvn-79214.firebaseapp.com",
-    projectId: "koosvn-79214",
-    storageBucket: "koosvn-79214.firebasestorage.app",
-    messagingSenderId: "616747698087",
-    appId: "1:616747698087:web:8740c4372a11ea82631882",
-    measurementId: "G-6K09T94P9X"
-  };
+// Cấu hình Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyCtfuF9GJMpPkcUGgqH539lbKQoiaVbOx8",
+  authDomain: "koosvn-79214.firebaseapp.com",
+  projectId: "koosvn-79214",
+  storageBucket: "koosvn-79214.firebasestorage.app",
+  messagingSenderId: "616747698087",
+  appId: "1:616747698087:web:8740c4372a11ea82631882",
+  measurementId: "G-6K09T94P9X"
+};
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
+// Khởi tạo Firebase và Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  // Cập nhật số lượt hoàn thành vào Firebase
-  const userRef = ref(database, 'survey/completionCount');
+// Hàm tăng lượt hoàn thành khảo sát
+async function incrementCompletionCount() {
+  const docRef = doc(db, "survey_data", "complete");  // Collection 'survey_data' và document 'complete'
 
-  // Tăng số lượt hoàn thành lên 1
-  runTransaction(userRef, (currentValue) => {
-    return (currentValue || 0) + 1;
-  });
+  // Lấy dữ liệu hiện tại từ Firestore
+  const docSnap = await getDoc(docRef);
 
-  // Hiển thị số lượt hoàn thành
-  get(userRef).then((snapshot) => {
-    const completionCount = snapshot.val();
-    document.getElementById("completionCount").innerText = `Số lượt hoàn thành: ${completionCount}`;
-  });
+  if (docSnap.exists()) {
+    let currentCount = docSnap.data().count || 0;  // Nếu đã có dữ liệu, lấy số hiện tại, nếu không thì mặc định là 0
+    await setDoc(docRef, { count: currentCount + 1 });  // Cập nhật số lượt hoàn thành
+
+    console.log("Lượt hoàn thành đã được cập nhật.");
+    document.getElementById("completionCount").innerText = "Số lượt hoàn thành: " + (currentCount + 1);
+  } else {
+    // Nếu document chưa tồn tại, tạo mới với giá trị 1
+    await setDoc(docRef, { count: 1 });
+
+    console.log("Lượt hoàn thành đã được tạo mới.");
+    document.getElementById("completionCount").innerText = "Số lượt hoàn thành: 1";
+  }
+}
+
+// Gọi hàm khi người dùng hoàn thành khảo sát
+document.getElementById("calculateBtn").addEventListener("click", function () {
+  incrementCompletionCount();
 });
