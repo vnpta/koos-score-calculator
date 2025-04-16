@@ -9,7 +9,7 @@ export async function hienThiSoLuong() {
     const docRef = doc(db, "1", "dahoanthanh");
     const docSnap = await getDoc(docRef);
     const count = docSnap.exists() ? docSnap.data().soluong || 0 : 0;
-    document.getElementById("completionCount").innerText = "Số lượt hoàn thành: " + count;
+    document.getElementById("completionCount").innerText = "Số lượt hoàn thành khảo sát: " + count;
   } catch (error) {
     console.error("Lỗi khi đọc số lượng:", error);
   }
