@@ -578,11 +578,17 @@
    <script src="script.js"></script>
 <!-- Form nhập tên và năm sinh -->
 <div id="userInfoForm" style="margin-bottom: 20px; text-align: center;">
-    <label for="nameInput" style="display: block; margin-bottom: 8px;">Tên:</label>
-    <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required style="display: block; margin: 0 auto 10px;">
+    <!-- Tên -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto;">
+        <label for="nameInput" style="margin-right: 10px;">Tên:</label>
+        <input type="text" id="nameInput" placeholder="Nhập họ tên (không dấu)" required>
+    </div>
 
-    <label for="birthYearInput" style="display: block; margin-bottom: 8px;">Năm sinh:</label>
-    <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required style="display: block; margin: 0 auto 10px;">
+    <!-- Năm sinh -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 50%; margin: 0 auto;">
+        <label for="birthYearInput" style="margin-right: 10px;">Năm sinh:</label>
+        <input type="number" id="birthYearInput" placeholder="Nhập năm sinh" required>
+    </div>
 
     <button id="downloadPdfBtn" style="display: inline-block; margin-top: 10px;">Lưu kết quả của bạn</button>
 </div>
